@@ -1,0 +1,121 @@
+    int getNumberOfBacklogOrders(vector<vector<int>>& orders) {
+        priority_queue<vector<int>>buy;
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>>sell;
+        for (auto& o : orders) {
+            if (o[2] == 0)
+                buy.push(o);
+            else
+                sell.push(o);
+            while (buy.size() && sell.size() && sell.top()[0] <= buy.top()[0]) {
+                int k = min(buy.top()[1], sell.top()[1]);
+                vector<int> tmp = buy.top(); buy.pop();
+                tmp[1] -= k;
+                if (tmp[1]) buy.push(tmp);
+
+                tmp = sell.top(); sell.pop();
+                tmp[1] -= k;
+                if (tmp[1]) sell.push(tmp);
+            }
+
+        }
+        int res = 0, mod = 1e9 + 7;
+        while (sell.size())
+            res = (res + sell.top()[1]) % mod, sell.pop();
+        while (buy.size())
+            res = (res + buy.top()[1]) % mod, buy.pop();
+        return res;
+    }
+
+// my slow version lol
+class Solution {
+public:
+        map<int, int, std::greater<int>> buy;
+        map<int, int> sell;
+    void processBuy(const vector<int> &order) {
+        int price = order[0];
+        int amount = order[1];
+        for (auto i = sell.begin(); i != sell.end(); i++) {
+            if (price >= i->first) {
+                if (amount > i->second) {
+                    amount -= i->second;
+                    i->second = 0;
+                } else {
+                    i->second -= amount;
+                    amount = 0;
+                }
+                if (amount == 0) break;
+            }
+        }
+        for (auto i = sell.begin(); i != sell.end(); i++) {
+            if (i->second == 0) sell.erase(i);
+        }
+        if (amount != 0) {
+            if (buy.count(price) == 0){
+                buy[price] = amount;   
+            }else{
+                buy[price] += amount;  
+            }
+        }
+    }
+    
+    void processSell(const vector<int> &order) {
+        int price = order[0];
+        int amount = order[1];
+        for (auto i = buy.begin(); i != buy.end(); i++) {
+            if (price <= i->first) {
+                if (amount > i->second) {
+                    amount -= i->second;
+                    i->second = 0;
+                } else {
+                    i->second -= amount;
+                    amount = 0;
+                }
+                if (amount == 0) break;
+            }
+        }
+        for (auto i = buy.begin(); i != buy.end(); i++) {
+            if (i->second == 0) buy.erase(i);
+        }
+        if (amount != 0) {
+            if (sell.count(price) == 0){
+                sell[price] = amount;   
+            }else{
+                sell[price] += amount;  
+            }
+        }
+    }
+    
+    void printff(){
+        cout << "sell";
+        for (auto &i : sell) {
+            cout << "[" << i.first << "," << i.second << "]" << " ";
+        }
+        cout << "buy";
+        for (auto &i : buy) {
+            cout << "[" << i.first << "," << i.second << "]" << " ";
+        }
+        cout << endl;
+    }
+    
+    int getNumberOfBacklogOrders(vector<vector<int>>& orders) {
+        int res = 0;
+        for(auto &i : orders){
+            if (i[2] == 0) {
+                processBuy(i);
+            } else {
+                processSell(i);
+            }
+            //printff();
+        }
+        for (auto &i : buy) {
+            res += i.second;
+            res %= static_cast<int>(1e9 + 7);
+        }
+        for (auto &i : sell) {
+            res += i.second;
+            res %= static_cast<int>(1e9 + 7);
+        } 
+        return res;
+    }
+};
+https://leetcode.com/problems/number-of-orders-in-the-backlog/discuss/1119992/JavaC%2B%2BPython-Priority-Queue

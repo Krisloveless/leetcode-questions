@@ -1,0 +1,16 @@
+class Solution:
+    def checkPerfectNumber(self, num: int) -> bool:
+    # To store sum of divisors 
+        sums = 1
+
+        # Find all divisors and add them 
+        i = 2
+        while i * i <= num: 
+            if num % i == 0: 
+                sums = sums + i + num//i 
+            i += 1
+
+        # If sum of divisors is equal to 
+        # n, then n is a perfect number 
+
+        return (True if sums == num and num!=1 else False) 

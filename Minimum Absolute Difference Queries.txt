@@ -1,0 +1,39 @@
+class Solution:
+    def minDifference(self, nums: List[int], queries: List[List[int]]) -> List[int]:
+        # mat = [[0 for i in range(len(nums))] for i in range(len(nums))]
+        # for l in range(1, len(nums)):
+        #     for i in range(len(nums) - l):
+        #         if l == 1:
+        #             if nums[i+l] == nums[i]:
+        #                 mat[i][i+l] = -1
+        #             else:
+        #                 mat[i][i+l] = abs(nums[i+l] - nums[i])
+        #         else:
+        #             tmp = abs(nums[i+l] - nums[i])
+        #             mat[i][i+l] = min(mat[i][i+l-1], mat[i+1][i+l])
+        #             if tmp != 0:
+        #                 mat[i][i+l] = min(mat[i][i+l], tmp)
+        #             if mat[i][i+l] == -1 and nums[i] != nums[i+l]:
+        #                     mat[i][i+l] = max(mat[i][i+l-1], mat[i+1][i+l])
+        # ans = []
+        # # for i in mat:
+        # #     print(i)
+        # for i, j in queries:
+        #     ans.append(mat[i][j])
+        # return ans
+        pres = [[0] * 101]
+        for i, v in enumerate(nums):
+            pres.append(pres[-1].copy())
+            pres[-1][v] += 1
+        ans = []
+        for l, r in queries:
+            pre = -100
+            cur = 100
+            for i in range(1, 101):
+                if pres[r+1][i] - pres[l][i] > 0:
+                    cur = min(cur, i - pre)
+                    #print(i, cur)
+                    pre = i
+            if cur >= 100: ans.append(-1)
+            else: ans.append(cur)
+        return ans

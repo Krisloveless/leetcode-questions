@@ -1,0 +1,21 @@
+class Solution:
+    def smallestRangeII(self, nums: List[int], k: int) -> int:
+        def helper(mat):
+            h = [(v[0], k, 0) for k, v in enumerate(mat)]
+            heapq.heapify(h)
+            maxV = max([i[0] for i in mat])
+            l, r =  None, None
+            while True:
+                current, row, col = heapq.heappop(h)
+                if l is None or l - r > maxV - current:
+                    r = current
+                    l = maxV
+                print(l, r)
+                if col == len(mat[row]) - 1:
+                    return l - r
+                heapq.heappush(h, (mat[row][col+1], row, col + 1))
+                maxV = max(maxV, mat[row][col+1])
+        mat = [[i-k, i+k] for i in nums]
+        print(mat)
+        return helper(mat)
+            

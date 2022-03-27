@@ -1,0 +1,18 @@
+import heapq
+class Solution:
+    def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
+        vec = [(q / w, q) for q, w in zip(quality, wage)]
+        vec.sort(key=lambda v : -v[0])
+        ans = float('inf')
+        total = 0
+        h = []
+        # iterate rate from high to low
+        # reduce workload and maximize rate
+        for rate, work in vec:
+            total += work
+            heapq.heappush(h, -work)
+            if len(h) > k:
+                total += heapq.heappop(h)
+            if len(h) == k:
+                ans = min(ans, total/ rate)
+        return ans

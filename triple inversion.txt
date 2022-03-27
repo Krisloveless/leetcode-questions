@@ -1,0 +1,16 @@
+Given a list of integers nums, return the number of pairs i < j such that nums[i] > nums[j] * 3.
+
+nums = [7, 1, 2]
+2
+
+class Solution:
+    def solve(self, nums):
+        res = 0
+        if len(nums) == 0: return 0
+        value = [nums[0]]
+        for i in range(1, len(nums)):
+            # bisect_right for not adding duplicate values
+            idx = bisect.bisect_right(value, 3 * nums[i])
+            res += (len(value) - idx)
+            bisect.insort(value, nums[i])
+        return res

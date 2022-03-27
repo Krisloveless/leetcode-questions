@@ -1,0 +1,38 @@
+class Solution {
+public:
+    string countOfAtoms(string formula) {
+        int pos = 0;
+        map<string, int> count = parser(formula, pos);
+        string res;
+        for (auto entry : count) {
+            res += entry.first + (entry.second == 1 ? "" : to_string(entry.second));
+        }
+        return res;
+    }
+    
+    map<string, int> parser(string& str, int& pos) {
+        map<string, int> res;
+        while (pos < str.size()) {
+            if (str[pos] == '(') {
+                pos++;
+                for (auto entry : parser(str, pos)) res[entry.first] += entry.second;
+            } else if (str[pos] == ')') {
+                int s = ++pos;
+                while (pos < str.size() && isdigit(str[pos])) pos++;
+                string num = str.substr(s, pos - s);
+                int multiple = num.empty() ? 1 : stoi(num);
+                for (auto entry : res) res[entry.first] *= multiple;
+                return res;
+            } else if (isupper(str[pos])) {
+                int s = pos++; // s : start index of this element
+                while (pos < str.size() && islower(str[pos])) pos++;
+                string elem = str.substr(s, pos - s);
+                s = pos; // s : start index of (possible) count of this element
+                while (pos < str.size() && isdigit(str[pos])) pos++;
+                string num = str.substr(s, pos - s);
+                res[elem] += num.empty() ? 1 : stoi(num);
+            }
+        }
+        return res;
+    }
+};

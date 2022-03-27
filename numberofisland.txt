@@ -1,0 +1,44 @@
+class Solution {
+public:
+    
+    void findFriend(pair<int, int> pos, vector<vector<int>>& tab, vector<vector<int>>& M){
+        if(M[pos.first][pos.second] == 1){
+            tab[pos.first][pos.second] = 1;
+            if(pos.first+1 != tab.size()) findFriend(make_pair(pos.first+1, pos.second), tab, M);
+            if(pos.second+1 != tab.size()) findFriend(make_pair(pos.first, pos.second+1), tab, M);
+        }    
+    }
+    
+    
+    void Print(vector<vector<int>>& out){
+        for(auto &i : out){
+            for(auto &j : i){
+                cout << j << " ";
+            }
+            cout << endl;
+        }
+    }
+    
+    int findCircleNum(vector<vector<int>>& M) {
+        if(M.size() == 0) return 0;
+        vector<vector<int> > tab(M);
+        for(int i = 0; i < M.size(); i++){
+            for(int j = 0; j < M.size(); j++){
+                tab[i][j] = 0;
+            }
+        }
+        int res = 0;
+        for(int i = 0; i < M.size(); i++){
+            for(int j = 0; j < M.size(); j++){
+                //if(i == 0 && j == 0) cout << tab[i][j] << " " << M[i][j];
+                if(tab[i][j] == 0 && M[i][j] == 1){
+                    res += 1;
+                    findFriend(make_pair(i, j), tab, M);
+                    Print(tab);
+                    //return res;
+                }
+            }
+        }        
+        return res;
+    }
+};

@@ -1,0 +1,21 @@
+class Solution:
+    def getOrder(self, tasks: List[List[int]]) -> List[int]:
+        tasks = [(task[0], i, task[1]) for i, task in enumerate(tasks)]
+        tasks.sort()
+        time = 0
+        pos = 0
+        log = []
+        ans = []
+        while True:
+            if not log:
+                time = max(time, tasks[pos][0])
+            while pos < len(tasks) and time >= tasks[pos][0]:
+                heapq.heappush(log, (tasks[pos][2], tasks[pos][1]))
+                pos += 1
+            if log:
+                cost, idx = heapq.heappop(log)
+                time += cost
+                ans.append(idx)
+            if not log and pos == len(tasks):
+                break
+        return ans

@@ -1,0 +1,1 @@
+https://leetcode.com/problems/valid-square/discuss/103448/Simple-python-solution-by-comparing-distance

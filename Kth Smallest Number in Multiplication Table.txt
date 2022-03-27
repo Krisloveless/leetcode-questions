@@ -1,0 +1,2 @@
+https://leetcode.com/problems/kth-smallest-number-in-multiplication-table/discuss/769704/Python-Clear-explanation-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems.
+https://leetcode.com/problems/kth-smallest-number-in-multiplication-table/discuss/262279/Python-Binary-Search-Need-to-Return-the-Smallest-Candidate

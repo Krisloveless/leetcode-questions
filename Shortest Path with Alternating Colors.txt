@@ -1,0 +1,21 @@
+class Solution:
+    def shortestAlternatingPaths(self, n: int, red_edges: List[List[int]], blue_edges: List[List[int]]) -> List[int]:
+        redList = collections.defaultdict(lambda : [])
+        blueList = collections.defaultdict(lambda : [])
+        for i in red_edges:
+            redList[i[0]].append(i[1])
+        for i in blue_edges:
+            blueList[i[0]].append(i[1])
+        q = collections.deque([(0, 1), (0, -1)])
+        step = 0
+        ans = [n*2] * n
+        while q:
+            for _ in range(len(q)):
+                pos, color = q.popleft()
+                ans[pos] = min(ans[pos], step)
+                curList = redList if color == 1 else blueList
+                for i in curList[pos]:
+                    q.append((i, color * (-1)))
+                curList[pos] = []
+            step += 1
+        return [-1 if ans[i] == 2 * n else ans[i] for i in range(len(ans))]

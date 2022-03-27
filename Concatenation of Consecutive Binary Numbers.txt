@@ -1,0 +1,1 @@
+https://leetcode.com/problems/concatenation-of-consecutive-binary-numbers/discuss/1037355/C%2B%2B-Super-Simple-Short-and-Easy-O(n)-Solution

@@ -1,0 +1,16 @@
+#include <cmath>
+class Solution {
+public:
+    bool judgeSquareSum(int c) {
+        auto end = (int)std::sqrt(c / 2.0);
+        for (int a = 0; a <= end; a++){
+            auto bs = c - a * a; // b^2
+            auto b = (int)std::sqrt(bs);
+            if (b * b == bs)
+                return true;
+        }
+        return false;
+    }
+};
+
+https://leetcode.com/problems/sum-of-square-numbers/discuss/104973/Python-Straightforward-with-Explanation/107731

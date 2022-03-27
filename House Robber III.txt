@@ -1,0 +1,21 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: TreeNode) -> int:
+        from functools import lru_cache
+        @lru_cache(None)
+        def helper(node):
+            if node is None:
+                return 0
+            # if child_val is == val, of course, node.val + child_val is max,
+            # if not, we have the path to pick val or not
+            child_val = helper(node.left.left) + helper(node.left.right) if node.left is not None else 0
+            child_val += helper(node.right.left) + helper(node.right.right) if node.right is not None else 0
+            val = helper(node.left) + helper(node.right)
+
+            return max(node.val + child_val, val)
+        return helper(root)

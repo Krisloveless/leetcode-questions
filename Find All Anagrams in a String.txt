@@ -1,0 +1,20 @@
+from collections import defaultdict
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        pHash = defaultdict(int)
+        for char in p:
+            pHash[char] += 1
+        rHash = defaultdict(int)
+        res = []
+        lp = len(p)
+        for r, value in enumerate(s):
+            if r >= lp:
+                letterToRemove = s[r - lp]
+                if rHash[letterToRemove] > 1:
+                    rHash[letterToRemove] -= 1
+                else:
+                    del rHash[letterToRemove]
+            rHash[value] += 1
+            if pHash == rHash:
+                res.append(r - lp + 1) 
+        return res

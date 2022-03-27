@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> cur;
+        Helper(candidates, target, res, cur);
+        return res;
+    }
+    
+    void Helper(vector<int>& arr, int value, vector<vector<int>>& whole, vector<int> cur){
+        if(value < 0) return;
+        if(value == 0) {
+            sort(cur.begin(), cur.end());
+            //cout << "x" << endl;
+            if(find(whole.begin(), whole.end(), cur) == whole.end()) whole.push_back(cur);
+            return;
+        }
+        for(auto &i : arr){            
+            cur.push_back(i);
+            //cout << value - i << endl;
+            Helper(arr, value-i, whole, cur);
+            cur.pop_back();
+        }
+    }
+};

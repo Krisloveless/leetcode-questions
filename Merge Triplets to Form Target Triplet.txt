@@ -1,0 +1,8 @@
+class Solution:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        tx, ty, tz = target
+        cx = cy = cz = 0
+        for a, b, c in triplets:
+            if a <= tx and b <= ty and c <= tz:
+                cx, cy, cz = max(cx, a), max(cy, b), max(cz, c)
+        return (cx, cy, cz) == (tx, ty, tz)

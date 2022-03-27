@@ -1,0 +1,17 @@
+import collections
+class Solution:
+    def predictPartyVictory(self, senate: str) -> str:
+        vec = collections.deque(senate)
+        queue = collections.deque([])
+        while vec:
+            value = vec.popleft()
+            # nothing in queue, we add to queue
+            if not queue:
+                queue.append(value)
+            # if queue[0] is not value, we discard value and add back queue[0] to vec
+            elif queue[0] != value:
+                vec.append(queue.popleft())
+            # if equal we keep appending queue
+            else:
+                queue.append(value)
+        return "Radiant" if queue[0] == 'R' else "Dire"

@@ -1,0 +1,25 @@
+import collections
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        def helper(char):
+            klocal = k
+            idx_changed = collections.deque([])
+            l = maxlen = 0
+            for r in range(len(s)):
+                if s[r] != char:
+                    if klocal > 0:
+                        klocal -= 1
+                        idx_changed.append(r)
+                    else:
+                        if len(idx_changed) == 0:
+                            l = r + 1
+                        else:
+                            l = idx_changed.popleft() + 1
+                            idx_changed.append(r)
+                # print(char, maxlen, r, l)
+                maxlen = max(maxlen, r - l + 1)
+            return maxlen
+        res = 0
+        for i in set(s):
+            res = helper(i) if res < helper(i) else res
+        return res

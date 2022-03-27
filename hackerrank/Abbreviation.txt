@@ -1,0 +1,34 @@
+A simple DP approach works. For example, a = "aBbdD" b = "BBD" since the last character in a is upper case and last character in b is also upper case and both are equal, f(a,b) = f("aBbd","BB")
+
+Now d can never be made equal to B therfore- f("aBbd","BB") = f("aBb","BB")
+
+Now b can be capitalized to B,therfore we have two options - either capitalize b to B or dont capitalize b. f("aBb","BB") = f("aB","B") or f("aB","BB") #Note that this is the 'or' operator. f is a boolean value.
+
+if we have something like a = 'C' and b = 'D' then f(a,b) evaluates to False (boolean value).
+
+Lastly (for initialization of the dp array)-
+
+if a is non-empty and b is empty, then f(a,b) is True only if all the characters in a are lower case.
+
+if a is empty and b is non-empty, then f(a,b) is always False.
+
+if both are empty then f(a,b) = True
+
+Good Luck !!
+
+def abbreviation(a, b):
+    m, n = len(a), len(b)
+    dp = [[False]*(m+1) for _ in range(n+1)]
+    dp[0][0] = True
+    for i in range(n+1):
+        for j in range(m+1):
+            if i == 0 and j != 0:
+                dp[i][j] = a[j-1].islower() and dp[i][j-1]
+            elif i != 0 and j != 0:
+                if a[j-1] == b[i-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                elif a[j-1].upper() == b[i-1]:
+                    dp[i][j] = dp[i-1][j-1] or dp[i][j-1]
+                elif not (a[j-1].isupper() and b[i-1].isupper()):
+                    dp[i][j] = dp[i][j-1]
+    return "YES" if dp[n][m] else "NO"

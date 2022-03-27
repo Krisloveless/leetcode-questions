@@ -1,0 +1,19 @@
+import heapq
+
+class Solution:
+    def maxPerformance(self, n: int, speed: List[int], efficiency: List[int], k: int) -> int:
+        vec = list(zip(efficiency, speed))
+        vec.sort(key=lambda x : -x[0])
+        h = []
+        total_spd = 0
+        res = 0
+        for i in range(n):
+            eff, spd = vec[i]
+            total_spd += spd
+            heapq.heappush(h, spd)
+            if len(h) > k:
+                tmp = heapq.heappop(h)
+                total_spd -= tmp
+            res = max(res, total_spd * eff)
+        mod = 10**9 + 7
+        return res % mod

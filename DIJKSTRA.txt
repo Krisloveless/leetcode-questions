@@ -1,0 +1,17 @@
+def dijkstra(graph, start, end):
+    # 堆里的数据都是 (cost, i) 的二元祖，其含义是“从 start 走到 i 的距离是 cost”。
+    heap = [(0, start)]
+    visited = set()
+    while heap:
+        (cost, u) = heapq.heappop(heap)
+        if u in visited:
+            continue
+        visited.add(u)
+        if u == end:
+            return cost
+        for v, c in graph[u]:
+            if v in visited:
+                continue
+            next = cost + c
+            heapq.heappush(heap, (next, v))
+    return -1

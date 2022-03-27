@@ -1,0 +1,13 @@
+class Solution:
+# @param A, a list of integers
+# @return an integer
+    def trap(self, height):
+        tmp, left, right, water = [], 0, 0, 0
+        for i in height:
+            left = max(left, i)
+            tmp.append(left)
+        tmp.reverse()
+        for n, i in enumerate(reversed(height)):
+            right = max(right, i)
+            water += min(tmp[n], right) - i
+        return water

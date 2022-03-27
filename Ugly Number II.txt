@@ -1,0 +1,19 @@
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        ugly_list = (1,)
+        count_2 = count_3 = count_5 = 0
+
+        while len(ugly_list) < n:
+            while ugly_list[count_2] * 2 <= ugly_list[-1]:
+                count_2 += 1
+
+            while ugly_list[count_3] * 3 <= ugly_list[-1]:
+                count_3 += 1
+
+            while ugly_list[count_5] * 5 <= ugly_list[-1]:
+                count_5 += 1
+
+            next_ugly = min(ugly_list[count_2] * 2, ugly_list[count_3] * 3, ugly_list[count_5] * 5)
+            ugly_list += (next_ugly,)
+
+        return ugly_list[-1]

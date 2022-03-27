@@ -1,0 +1,31 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val, neighbors):
+        self.val = val
+        self.neighbors = neighbors
+"""
+class Solution:
+    def cloneGraph(self, node: 'Node') -> 'Node':
+        visited = []
+        cloned = []
+        #cloned is deepcopy without neighbors
+        if node is None:
+            return None
+        tmp = Node(node.val, [])
+        visited.append(node)
+        cloned.append(tmp)
+        def dfs(current, node):
+            if node in visited:
+                idx = visited.index(node)
+                current.neighbors.append(cloned[idx])
+                return
+            visited.append(node)
+            tmp = Node(node.val, [])
+            cloned.append(tmp)
+            current.neighbors.append(tmp)
+            for i in node.neighbors:
+                dfs(tmp, i)
+        for i in node.neighbors:
+            dfs(tmp, i)
+        return tmp
