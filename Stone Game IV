@@ -1,0 +1,16 @@
+from functools import cache
+class Solution:
+    def winnerSquareGame(self, n: int) -> bool:
+        @cache
+        def helper(val):
+            if n == 1:
+                return True
+            p = 1
+            while p ** 2 <= val:
+                if p ** 2 == val:
+                    return True
+                if not helper(val - p ** 2):
+                    return True
+                p += 1
+            return False
+        return helper(n)
