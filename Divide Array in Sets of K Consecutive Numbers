@@ -1,0 +1,31 @@
+from collections import deque
+class Solution:
+    # def isPossibleDivide(self, nums: List[int], k: int) -> bool:
+    #     nums.sort()
+    #     queue = deque([[nums[0]]])
+    #     rest = nums[1:]
+    #     for i in rest:
+    #         idx = 0
+    #         found = False
+    #         while idx < len(queue):
+    #             last = queue[idx][-1]
+    #             if last + 1 != i:
+    #                 idx += 1
+    #             else:
+    #                 queue[idx].append(i)
+    #                 found = True
+    #                 break
+    #         if not found:
+    #             queue.append([i])
+    #         if len(queue[0]) == k:
+    #             queue.popleft()
+    #     return True if len(queue) == 0 else False
+       def isPossibleDivide(self, A, k):
+        c = collections.Counter(A)
+        for i in sorted(c):
+            if c[i] > 0:
+                for j in range(k)[::-1]:
+                    c[i + j] -= c[i]
+                    if c[i + j] < 0:
+                        return False
+        return True
