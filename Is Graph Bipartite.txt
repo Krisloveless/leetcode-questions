@@ -1,1 +1,29 @@
 https://leetcode.com/problems/is-graph-bipartite/discuss/1065074/C%2B%2B-Super-Simple-Easy-BFS
+import collections
+class Solution:
+    def isBipartite(self, graph: List[List[int]]) -> bool:
+        size = len(graph)
+        dict_graph = collections.defaultdict(list)
+        for i in range(size):
+            for j in graph[i]:
+                dict_graph[i].append(j)
+        BLACK, WHITE = -1, 1
+        EMPTY = 0
+        nodes = [EMPTY for i in range(size)]
+        def helper(idx, color):
+            if nodes[idx] != EMPTY:
+                if nodes[idx] == color:
+                    return True
+                else:
+                    return False
+            nodes[idx] = color
+            for i in dict_graph[idx]:
+                if helper(i, -color) == False:
+                    return False
+            return True
+        res = True
+        for i in range(len(nodes)):
+            if nodes[i] == EMPTY:
+                res = helper(i, BLACK) and res
+        # print(res, nodes)
+        return res
