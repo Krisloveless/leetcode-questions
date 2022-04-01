@@ -1,0 +1,37 @@
+class Node:
+    def __init__(self, val = 0):
+        self.val = val
+        self.next = None
+        self.pre = None
+    
+class Solution:
+    def createGraph(self, n):
+        head = Node(1)
+        current = head
+        for i in range(2, n+1):
+            tmp = Node(i)
+            current.next = tmp
+            tmp.pre = current
+            current = tmp
+        current.next = head
+        head.pre = current
+        return head
+    
+    def _remove(self, node):
+        p_node = node.pre
+        n_node = node.next
+        p_node.next = n_node
+        n_node.pre = p_node
+        return p_node
+        
+    def findTheWinner(self, n: int, k: int) -> int:
+        head = self.createGraph(n)
+        current = head.pre
+        while current.pre != current:
+            for _ in range(k):
+                current = current.next
+            # print("remove", current.val)
+            current = self._remove(current)
+            # print('start', current.val)
+        return current.val    
+        
