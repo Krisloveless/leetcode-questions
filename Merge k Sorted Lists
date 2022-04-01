@@ -1,0 +1,59 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# class Solution:
+#     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+#         if len(lists) == 0:
+#             return None
+#         done = sum([1 for i in lists if i is None])
+#         size = len(lists)
+#         if done == size:
+#             return None
+#         head = ListNode()
+#         current = head
+#         while done != size:
+#             min_v_idx = -1
+#             min_v = float('inf')
+#             for idx, node in enumerate(lists):
+#                 if node is None:
+#                     continue
+#                 if node.val < min_v:
+#                     min_v = node.val
+#                     min_v_idx = idx
+#             current.val = min_v
+#             if min_v_idx == -1:
+#                 return None
+#             lists[min_v_idx] = lists[min_v_idx].next
+#             if lists[min_v_idx] is None:
+#                 done += 1
+#             current.next = ListNode()
+#             if done == size:
+#                 current.next = None
+#                 break
+#             current = current.next
+#         return head
+
+class Solution(object):
+    def mergeKLists(self, lists):
+        if not lists:
+            return None
+        if len(lists) == 1:
+            return lists[0]
+        mid = len(lists) // 2
+        l, r = self.mergeKLists(lists[:mid]), self.mergeKLists(lists[mid:])
+        return self.merge(l, r)
+    
+    def merge(self, l, r):
+        dummy = p = ListNode()
+        while l and r:
+            if l.val < r.val:
+                p.next = l
+                l = l.next
+            else:
+                p.next = r
+                r = r.next
+            p = p.next
+        p.next = l or r
+        return dummy.next
