@@ -1,0 +1,30 @@
+import collections
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        graph = collections.defaultdict(list)
+        size = len(tickets)
+        for start, end in tickets:
+            graph[start].append(end)
+        # for k in graph:
+        #     graph[k] = collections.deque(sorted(graph[k]))
+        res = []
+        # print(graph)
+        for k in graph:
+            graph[k] = sorted(graph[k])
+        def helper(start, current_list, counter, graph):
+            if counter == size:
+                res.append([i for i in current_list])
+                return True
+            for idx, v in enumerate(graph[start]):
+                    current_list.append(v)
+                    counter += 1
+                    graph[start] = graph[start][:idx] + graph[start][idx+1:]
+                    tag = helper(v, current_list, counter, graph)
+                    if tag:
+                        return True
+                    counter -= 1
+                    current_list.pop()
+                    graph[start] = graph[start][:idx] + [v] + graph[start][idx:]
+            return False
+        helper("JFK", ["JFK"], 0, graph)   
+        return res[0]
