@@ -1,0 +1,26 @@
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        # pos = 0
+        # size = len(arr)
+        # while pos != size:
+        #     found = False
+        #     del_idx = -1
+        #     for idx, v in enumerate(pieces):
+        #         if v[0] == arr[pos]:
+        #             found = True
+        #             del_idx = idx
+        #             break
+        #     if not found:
+        #         return False
+        #     local_size = len(v)
+        #     if found and v == arr[pos: pos+local_size]:
+        #         pos += local_size
+        #     else:
+        #         return False
+        # return True
+            
+        h = {x[0]: x for x in pieces}
+        res = []
+        for i in arr:
+            res += h.get(i, [])
+        return res == arr
