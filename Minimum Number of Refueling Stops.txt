@@ -13,3 +13,21 @@ class Solution:
                 return -1
             heapq.heappush(h, -stations[i][1])
         return ans
+        
+# cannot pass testcase
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        @cache
+        def helper(gasLeft, position, times):
+            if gasLeft >= target - position:
+                return times
+            # print(gasLeft, position, times)
+            low = bisect.bisect_left(stations, [position + 1])
+            high = bisect.bisect_left(stations, [position + gasLeft + 1])
+            # print(low, high)
+            ans = float('inf')
+            for i in range(low, high):
+                ans = min(ans, helper(gasLeft - stations[i][0] + position + stations[i][1], stations[i][0], times + 1))
+            return ans 
+        ans = helper(startFuel, 0, 0)
+        return ans if ans != float('inf') else -1
