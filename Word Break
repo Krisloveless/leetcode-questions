@@ -1,0 +1,34 @@
+# class Solution:
+#     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+#         seen = set(wordDict)
+#         @cache
+#         def helper(s, current):
+#             # print(s, current)
+#             size = len(s)
+#             p = 0
+#             res = False
+#             while p != size:
+#                 current += s[p]
+#                 if current in seen:
+#                     res = res or helper(s[p+1:], current)
+#                     current = ""
+#                 p += 1
+#             res = res or current == ""
+#             return res
+#         return helper(s, "")
+class Solution(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: bool
+        """
+        seen = set(wordDict)
+        dp = [False] * (len(s) + 1) # dp[i] means s[:i+1] can be segmented into words in the wordDicts 
+        dp[0] = True
+        for i in range(len(s)):
+            for j in range(i, len(s)):
+                if dp[i] and s[i: j+1] in seen:
+                    dp[j+1] = True
+                    
+        return dp[-1]
