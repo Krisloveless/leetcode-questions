@@ -23,3 +23,32 @@ class Solution:
         for i in set(s):
             res = helper(i) if res < helper(i) else res
         return res
+        
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        def helper(letter, k):
+            ans = 0
+            l = 0
+            vec = collections.deque([])
+            for i in range(len(s)):
+                if s[i] == letter:
+                    ans = max(ans, i - l + 1)   
+                    continue
+                if not vec and k == 0:
+                    l = i + 1
+                    continue
+                if k > 0:
+                    k -= 1
+                    vec.append(i)
+                else:
+                    l = vec.popleft() + 1
+                    vec.append(i)
+                ans = max(ans, i - l + 1)   
+            return ans
+        # print(helper('A', k), helper('B', k))
+        count = collections.Counter(s)
+        ans = 0
+        for i in count:
+            ans = max(ans, helper(i, k))
+        return ans
+        
