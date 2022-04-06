@@ -1,1 +1,22 @@
 https://leetcode.com/problems/wiggle-subsequence/discuss/84843/Easy-understanding-DP-solution-with-O(n)-Java-version
+class Solution:
+    def wiggleMaxLength(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return 1
+        ans = 0
+        tag = None
+        for i in range(1, len(nums)):
+            value = nums[i] - nums[i-1]
+            if tag is None and value == 0:
+                continue
+            elif tag is None:
+                tag = 1 if value > 0 else -1
+            if value == 0:
+                continue
+            if tag > 0 and value > 0:
+                ans += 1
+                tag = -tag
+            elif tag < 0 and value < 0:
+                ans += 1
+                tag = -tag
+        return ans + 1
