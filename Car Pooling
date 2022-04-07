@@ -1,0 +1,12 @@
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        d = collections.defaultdict(int)
+        for val, start, end in trips:
+            d[start] -= val
+            d[end] += val
+        for pos in sorted(d.keys()):
+            capacity += d[pos]
+            if capacity < 0:
+                return False
+        # print(d)
+        return True
