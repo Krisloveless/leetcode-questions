@@ -1,0 +1,26 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        def process(expr):
+            stack = []
+            sign = '+'
+            value = 0
+            for i in range(len(expr)):
+                # print(stack, expr[i])
+                if expr[i] == ' ':
+                    continue
+                if expr[i].isdigit():
+                    value = 10 * value + int(expr[i])
+                    continue
+                if sign == '+':
+                    stack.append(value)
+                elif sign == '-':
+                    stack.append(-value)
+                elif sign == '*':
+                    stack[-1] *= value
+                else:
+                    stack[-1] /= value
+                    stack[-1] = int(stack[-1])
+                sign = expr[i]
+                value = 0
+            return sum(stack)
+        return process(s + '@')
