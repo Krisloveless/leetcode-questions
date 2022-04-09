@@ -1,0 +1,26 @@
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        d = collections.Counter(t)
+        l, r = 0, 0
+        counter = len(t)
+        size = len(s)
+        maxL = float('inf')
+        res = ""
+        while r != size:
+            # print(d, r, counter)
+            if s[r] in d:
+                if d[s[r]] > 0:
+                    counter -= 1
+                d[s[r]] -= 1
+            r += 1
+            while counter == 0:
+                # print(l, r, res, )
+                if maxL > r - l:
+                    maxL = r - l
+                    res = s[l: r]
+                if s[l] in d:
+                    if d[s[l]] == 0:
+                        counter += 1
+                    d[s[l]] += 1
+                l += 1
+        return res
