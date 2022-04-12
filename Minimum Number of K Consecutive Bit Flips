@@ -1,0 +1,16 @@
+class Solution:
+    def minKBitFlips(self, nums: List[int], k: int) -> int:
+        isFlipped = [0 for _ in nums]
+        ans = 0
+        flipped = 0
+        for idx, val in enumerate(nums):
+            if idx >= k:
+                # cancelling out the flip for previous i - k
+                flipped ^= isFlipped[idx - k]
+            if flipped == val:
+                if idx + k > len(nums):
+                    return -1
+                isFlipped[idx] = 1
+                flipped ^= 1
+                ans += 1
+        return ans
