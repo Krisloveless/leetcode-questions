@@ -33,7 +33,6 @@ class Solution:
         contribution = defaultdict(int) # Used for storing the contribution of each character so far. This
         # will possibly be updated throughout the string traversal
         res = 0
-        
         for i, char in enumerate(s):
             max_possible_substrs_at_idx = i + 1
             contribution[char] = max_possible_substrs_at_idx - last_position[char]
@@ -41,4 +40,18 @@ class Solution:
             res+=sum(contribution.values())
             last_position[char] = i + 1
             
+        return res
+        
+class Solution:
+    def uniqueLetterString(self, s: str) -> int:
+        con = collections.defaultdict(int)
+        pos = collections.defaultdict(int)
+        
+        res = 0
+        
+        for idx, val in enumerate(s):
+            current = idx + 1
+            con[val] = current - pos[val]
+            res += sum(con.values())
+            pos[val] = current
         return res
