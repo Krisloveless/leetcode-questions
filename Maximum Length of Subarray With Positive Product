@@ -1,0 +1,42 @@
+class Solution:
+    def getMaxLen(self, nums: List[int]) -> int:
+        zeroPos = -1
+        firstNeg = -1
+        countNeg = 0
+        maxL = 0
+        for idx, val in enumerate(nums):
+            if val < 0:
+                countNeg += 1
+                if firstNeg == -1:
+                    firstNeg = idx
+            if val == 0:
+                countNeg = 0
+                firstNeg = -1
+                zeroPos = idx
+            else:
+                if countNeg % 2 == 0:
+                    maxL = max(maxL, idx - zeroPos)
+                else:
+                    maxL = max(maxL, idx - firstNeg)
+        return maxL
+
+# class Solution:
+#     def getMaxLen(self, nums: List[int]) -> int:
+#         maxV = 0
+#         for i in range(len(nums)):
+#             if nums[i] == 0:
+#                 continue
+#             if nums[i] > 0:
+#                 maxV = max(maxV, 1)
+#                 neg = 0
+#             else:
+#                 neg = 1
+#             for j in range(i+1, len(nums)):
+#                 if nums[j] == 0:
+#                     break
+#                 elif nums[j] < 0:
+#                     neg += 1
+#                 if neg % 2 == 0:
+#                     # print(i, j)
+#                     maxV = max(maxV, j - i + 1)
+#         return maxV
