@@ -1,0 +1,379 @@
+
+
+
+a = 'a'
+b = 'bc'
+
+def helper(a, b, k=3):
+    first = len(a)
+    second = len(b)
+    value = 0
+    p = 1
+    tag = 1
+    pre = 0
+    while p:
+        if tag > 0:
+            value += p * first
+        else:
+            value += p * second
+        if value >= k:
+            break
+        pre = value
+        tag = -tag
+        p += 1
+    final = a if tag > 0 else b
+    print(final, pre, )
+    return final[(k - pre - 1) % len(final)]
+
+# print(helper(a, b, 7))
+
+def helper1(a = 2):
+    for i in range(3):
+        print(a ,":", a ^ i)
+    
+# helper1(1)
+# helper1(2)
+# helper1(3)
+
+s = 43121
+def helperx(s):
+    arr = [int(i) if idx % 2 == 0 else -int(i) for idx, i in enumerate(str(s))]
+    print(arr)
+    return sum(arr)
+#helperx(s)
+
+A = ['one', 'two', 'three']
+B = ['onethreetwo', 'tone']
+def helper(A, B):
+    store = set()
+    def test(string):
+        current = ''
+        for i in range(len(string)):
+            current += string[i]
+            if current in store:
+                current = ''
+        return current == ''
+    for i in A:
+        store.add(i)
+    for i in B:
+        if not test(i):
+            return False
+    return True
+
+#print(helper(A, B))
+
+
+
+
+# tag = False
+# for i in range(10):
+#     if tag:
+#         break
+#     for j in range(10):
+#         if i * j == 24:
+#             tag = True
+#             break
+import bisect
+import code
+import enum
+def mp(input):
+    tag = True if input >= 0 else False
+    if not tag:
+        input = -input
+    vec = [i for i in str(input)]
+    if tag:
+        for i in range(len(vec)):
+            if vec[i] >= '5':
+                continue
+            vec.insert(i, '5')
+            break
+        return int("".join(vec))
+    for i in range(len(vec)):
+        if vec[i] <= '5':
+            continue
+        vec.insert(i, '5')
+        break
+    return -int("".join(vec))
+
+#print(mp(1234),mp(7643),mp(0),mp(-661),)
+
+
+import collections
+
+pile1 = [1, 1, 2, 2, 2, 3, 3, 3, 4, 4]
+pile = [5,2,1]
+def res(pile):
+    pile.sort()
+    d = {}
+    current = 0
+    minV = pile[0]
+    for idx, v in enumerate(pile):
+        if v == minV:
+            d[v] = 0
+            continue
+        if v not in d:
+            d[pile[idx-1]] *= current
+            current += 1
+            d[v] = 1
+        else:
+            d[v] += 1
+    d[pile[-1]] *= current
+    return sum(d.values())
+# print(res(pile))
+
+
+value = [1,2,3,5]
+def nextPermutation(value):
+    current = [i for i in value]
+    size = len(value)
+    pivot = 0
+    swapIdx = size - 1
+    for i in range(size - 2, -1, -1):
+        if value[i] < value[i+1]:
+            pivot = i
+            break
+    for i in range(pivot + 1, size):
+        if value[i] < value[pivot]:
+            swapIdx = i - 1
+            break
+    value[pivot], value[swapIdx] = value[swapIdx], value[pivot]
+    value = value[:pivot+1] + value[pivot+1:][::-1]
+    if current > value:
+        print("End", current, value)
+        return current
+    return value
+# for _ in range(100):
+#     print(value)
+#     value = nextPermutation(value)
+
+import math
+
+def fiboncci(n):
+    phi = (1 + math.sqrt(5)) / 2
+    return round(phi**n/ math.sqrt(5))
+
+# for i in range(100):
+#     print(fiboncci(i))
+
+
+value = "abbabbaaa"
+value = "babaa"
+value = "bbbab"
+def func(string):
+    d = collections.defaultdict(int)
+    pos = 0
+    size = len(string)
+    max_val = -float('inf')
+    while pos != size:
+        start = pos
+        current = string[pos]
+        while pos != size and string[pos] == current:
+            pos += 1
+        d[start] += pos - start
+        max_val = max(max_val, d[start])
+    if not d:
+        return 0
+    ans = 0
+    for i in d:
+        ans += max_val - d[i]
+    return ans
+#print(func(value))
+
+
+
+
+numCompetitors=6
+topNCompetitors = 2
+competitors = ["newshop", "shopnow", "afashion", "fashionbeats", "mymarket", "tcellular"]
+numReviews = 6
+reviews = [
+"newshop is providing good services in the city; everyone should use newshop",
+"best services by newshop",
+"fashionbeats has great services in the city",
+"I am proud to have fashionbeats",
+"mymarket has awesome services",
+"Thanks Newshop for the quick delivery"
+]
+from functools import cmp_to_key
+def TopN(comp, topNC, reviews):
+    d = collections.defaultdict(int)
+    seen = set((comp))
+    def helper(line):
+        line += '@'
+        size = len(line)
+        res = []
+        pos = 0
+        current = ""
+        while pos != size:
+            if not line[pos].isalpha() and current:
+                res.append(current)
+                current = ""
+            else:
+                current += line[pos]
+            pos += 1
+        return res
+    for line in reviews:
+        for j in helper(line):
+            if j in seen:
+                d[j] += 1
+    print(d)
+    def comp(a, b):
+        if a[1] > b[1]:
+            return 1
+        elif a[1] < b[1]:
+            return -1
+        if a[0] > b[0]:
+            return -1
+        elif a[0] < b[0]:
+            return 1
+        return 0
+    d = {"newshop":2, "shopnow":2, "mymarket":4}
+    res = sorted(d.items(), key=cmp_to_key(comp), reverse=True)
+    return [i[0] for i in res[:topNC]]
+
+#print(TopN(competitors, topNCompetitors, reviews))
+
+expr = "sub(add(1,6),3)"
+
+op = set(["add", "sub"])
+size = expr
+def eval(expr, pos):
+    func_err_pos = pos
+    local_op = ""
+    sign = '+'
+    stack = []
+    val = 0
+    print(expr, pos, local_op is None)
+    while len(expr) > 0:
+        c = expr[0]
+        if local_op is not None:
+            if c == '(':
+                if local_op not in op:
+                    raise ValueError('{}: pos {} error'.format(local_op, func_err_pos))
+                sign = '+' if local_op == 'add' else '-'            
+                local_op = None
+            else:
+                local_op += c
+        else:
+            if c == ',':
+                stack.append(val)
+                val = 0
+            elif c == ')':
+                stack.append(val)
+                break
+            else:
+                if val == 0 and c.isalpha():
+                    stack.append(eval(expr, pos))
+                elif c.isalpha():
+                    raise ValueError('{}: pos {} error'.format(c, pos))
+                else:
+                    val = 10 * val + int(c)
+        expr.pop(0)
+        pos += 1
+    if sign == '+':
+        return sum(stack)
+    #print(sign, stack)
+    return stack[0] - stack[1]
+
+#print(eval([i for i in expr], 0))
+
+
+items = [[1, 2], [3, 4], [4, 5],[3,6], [2,100]]
+def trace(items):
+    seen = set()
+    maxV = [[]]
+    d = collections.defaultdict(list)
+    for k, v in items:
+        if v not in d[k]:
+            d[k].append(v)
+        if k not in d[v]:
+            d[v].append(k)
+    # print(d)
+    def helper(i, seenL):
+        if i in seenL:
+            # print(seenL)
+            if len(seenL) > len(maxV[0]):
+                maxV[0] = list(seenL)
+            return
+        seenL.add(i)
+        seen.add(i)
+        for t in d[i]:
+            helper(t, seenL)
+    for i in d:
+        if i not in seen:
+            helper(i, set())
+    return sorted(maxV[0])
+#print(trace(items))        
+
+
+# codeList = [["apple", "apple"], ["banana", "anything", "banana"]] 
+# shoppingCart = ["orange", "apple", "apple", "banana", "banana", "orange", "banana"]
+codeList = [["apple", "apple","banana"]] 
+shoppingCart = ["orange", "apple", "apple", "banana", "banana", "orange", "banana"]
+
+from functools import lru_cache
+
+def promotion(codeList, cart):
+    size = len(shoppingCart)
+    orderSize = len(codeList) 
+    def check(vec1, vec2):
+        size = len(vec1)
+        for i in range(size):
+            if vec1[i] == "anything":
+                continue
+            if vec1[i] != vec2[i]:
+                return False
+        return True
+    @lru_cache
+    def helper(pos, current):
+        print(pos, current)
+        if current == orderSize:
+            return True
+        if pos == size:
+            return False
+        res = False
+        if check(codeList[current], cart[pos:]):
+            offset = len(codeList[current])
+            res = res or helper(pos + offset, current + 1)
+        if res:
+            return True
+        return helper(pos + 1, current)
+    return helper(0, 0)
+#print(promotion(codeList, shoppingCart))
+
+
+userSongs = {  
+   "David": ["song1", "song2", "song3", "song4", "song8"],
+   "Emma":  ["song5", "song6", "song7"]
+}
+songGenres = {  
+   "Rock":    ["song1", "song3"],
+   "Dubstep": ["song7"],
+   "Techno":  ["song2", "song4"],
+   "Pop":     ["song5", "song6"],
+   "Jazz":    ["song8", "song9"]
+}
+
+def popsongs(song, genre):
+    d = {}
+    songToGenre = {}
+    maxd = {}
+    for k, v in genre.items():
+         for i in v:
+             songToGenre[i] = k
+    for k, v in song.items():
+        d[k] = collections.defaultdict(int)
+        val = 0
+        for i in v:
+            if i in songToGenre:
+                d[k][songToGenre[i]] += 1
+                val = max(val, d[k][songToGenre[i]])
+        maxd[k] = val
+    print(d, maxd)
+    res = {}
+    for i in maxd:
+        current = d[i]
+        print(current)
+        res[i] = [ k for k, v in current.items() if v == maxd[i]]
+    return res
+print(popsongs(userSongs, songGenres))
