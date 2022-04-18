@@ -1,0 +1,18 @@
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n = len(matrix)
+        vecIdx = [0 for _ in range(n)]
+        vecCurrent = [ mat[0] for mat in matrix]
+        for _ in range(k):
+            minIdx = -1
+            minV = float('inf')
+            for idx in range(n):
+                if vecIdx[idx] == n:
+                    continue
+                current = matrix[idx][vecIdx[idx]]
+                if minV > current:
+                    minV = current
+                    minIdx = idx
+            vecIdx[minIdx] += 1
+            ans = minV
+        return ans
