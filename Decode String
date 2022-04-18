@@ -1,0 +1,54 @@
+class Solution:
+    def decodeString(self, s: str) -> str:
+        import collections
+        vec = collections.deque([i for i in s])
+        stack = []
+        def decode(vecS):
+            # print(vecS)
+            stack = []
+            num = 0
+            kCaptured = False
+            path = ""
+            while vecS:
+                current = vecS[0]
+                if current.isdigit():
+                    if not kCaptured and path == "":
+                        num = 10 * num + int(current)
+                    else:
+                        path += decode(vecS)
+                        continue
+                elif current == '[':
+                    kCaptured = True
+                elif current == ']':
+                    vecS.popleft()
+                    break
+                else:
+                    # print(path, current)
+                    path += current
+                vecS.popleft()
+            # print(num, path)
+            return num * path if kCaptured else path
+        res = ""
+        while vec:
+            # print(vec)
+            res += decode(vec)
+        return res
+    
+class Solution(object):
+    def decodeString(self, s):
+        stack = []; curNum = 0; curString = ''
+        for c in s:
+            if c == '[':
+                stack.append(curString)
+                stack.append(curNum)
+                curString = ''
+                curNum = 0
+            elif c == ']':
+                num = stack.pop()
+                prevString = stack.pop()
+                curString = prevString + num*curString
+            elif c.isdigit():
+                curNum = curNum*10 + int(c)
+            else:
+                curString += c
+        return curString
