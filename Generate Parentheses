@@ -1,0 +1,16 @@
+
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        ans = []
+        @cache
+        def helper(current, l, r):
+            if l > r:
+                return
+            if l == 0:
+                current += r * ')'
+                ans.append(current)
+                return
+            helper(current + '(', l - 1, r)
+            helper(current + ')', l, r - 1)
+        helper("", n, n)
+        return ans
