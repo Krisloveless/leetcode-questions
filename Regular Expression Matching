@@ -32,3 +32,43 @@ public:
         return f[m][n];
     }
 };
+
+# https://www.geeksforgeeks.org/wildcard-pattern-matching/
+cache = {}
+def isMatch(self, s, p):
+    if (s, p) in self.cache:
+        return self.cache[(s, p)]
+    if not p:
+        return not s
+    if p[-1] == '*':
+        if self.isMatch(s, p[:-2]):
+            self.cache[(s, p)] = True
+            return True
+        if s and (s[-1] == p[-2] or p[-2] == '.') and self.isMatch(s[:-1], p):
+            self.cache[(s, p)] = True
+            return True
+    if s and (p[-1] == s[-1] or p[-1] == '.') and self.isMatch(s[:-1], p[:-1]):
+        self.cache[(s, p)] = True
+        return True
+    self.cache[(s, p)] = False
+    return False
+ 
+ # https://leetcode.com/problems/regular-expression-matching/discuss/413571/Python-60ms-human-readable-DP-solution
+def isMatch(self, s: str, p: str) -> bool:
+    s, p = ' '+ s, ' '+ p
+    lenS, lenP = len(s), len(p)
+    dp = [[0]*(lenP) for i in range(lenS)]
+    dp[0][0] = 1
+
+    for j in range(1, lenP):
+        if p[j] == '*':
+            dp[0][j] = dp[0][j-2]
+
+    for i in range(1, lenS):
+        for j in range(1, lenP):
+            if p[j] in {s[i], '.'}:
+                dp[i][j] = dp[i-1][j-1]
+            elif p[j] == "*":
+                dp[i][j] = dp[i][j-2] or int(dp[i-1][j] and p[j-1] in {s[i], '.'})
+
+    return bool(dp[-1][-1])
