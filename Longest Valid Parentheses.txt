@@ -1,1 +1,22 @@
 https://leetcode.com/problems/longest-valid-parentheses/discuss/14147/My-simple-8ms-C%2B%2B-code
+
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        s = '@' + s
+        stack = []
+        ans = 0
+        for i in s:
+            # print(stack)
+            if i == '@':
+                stack.append(['@', 0])
+                continue
+            elif i == '(':
+                stack.append(['(', 0])
+                continue
+            if stack[-1][0] == '(':
+                acc = stack.pop()
+                stack[-1][1] += 2 + acc[1]
+            else:
+                stack.append([')', 0])
+        # print("end",stack)
+        return max([i[1] for i in stack])
