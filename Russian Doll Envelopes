@@ -1,0 +1,14 @@
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        vec = [i[1] for i in envelopes]
+        res = []
+        # longest increasing subsequence
+        for i in vec:
+            idx = bisect.bisect_left(res, i)
+            if idx == len(res):
+                res.append(i)
+            else:
+                res[idx] = i
+        return len(res)
+                
