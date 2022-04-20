@@ -1,0 +1,52 @@
+# class Solution:
+#     def maxCoins(self, nums: List[int]) -> int:
+#         res = [0]
+#         def dfs(current, vec):
+#             size = len(vec)
+#             if not vec:
+#                 res[0] = max(res[0], current)
+#                 return 
+#             for idx in range(size):
+#                 front = 1
+#                 mid = vec[idx]
+#                 end = 1
+#                 if idx - 1 >= 0:
+#                     front = vec[idx - 1]
+#                 if idx + 1 < size:
+#                     end = vec[idx + 1]
+#                 dfs(front * mid * end + current, vec[:idx] + vec[idx+1:])
+#         dfs(0, nums)
+#         return res[0]
+
+# class Solution:
+#     def maxCoins(self, nums: List[int]) -> int:
+#         @cache
+#         def dfs(tup):
+#             if not tup:
+#                 return 0
+#             size = len(tup)
+#             maxV = 0
+#             for idx in range(size):
+#                 front = 1
+#                 mid = tup[idx]
+#                 end = 1
+#                 if idx - 1 >= 0:
+#                     front = tup[idx - 1]
+#                 if idx + 1 < size:
+#                     end = tup[idx + 1]
+#                 nextTuple = tup[:idx] + tup[idx+1:]
+#                 maxV = max(maxV, front * mid * end + dfs(nextTuple))
+#             return maxV
+#         maxV = dfs(tuple(nums))
+#         return maxV
+    
+class Solution:
+    def maxCoins(self, A):
+        A, n = [1] + A + [1], len(A) + 2
+        dp = [[0] * n for _ in range(n)]
+        
+        for i in range(n - 2, -1, -1):
+            for j in range(i + 2, n):
+                dp[i][j] = max(A[i]*A[k]*A[j] + dp[i][k] + dp[k][j] for k in range(i + 1, j))
+        
+        return dp[0][n-1]
