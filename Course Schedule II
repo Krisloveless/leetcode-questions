@@ -1,0 +1,48 @@
+# def findOrder1(self, numCourses, prerequisites):
+#     dic = {i: set() for i in range(numCourses)}
+#     neigh = collections.defaultdict(set)
+#     for i, j in prerequisites:
+#         dic[i].add(j)
+#         neigh[j].add(i)
+#     # queue stores the courses which have no prerequisites
+#     queue = collections.deque([i for i in dic if not dic[i]])
+#     count, res = 0, []
+#     while queue:
+#         node = queue.popleft()
+#         res.append(node)
+#         count += 1
+#         for i in neigh[node]:
+#             dic[i].remove(node)
+#             if not dic[i]:
+#                 queue.append(i)
+#     return res if count == numCourses else []
+
+    
+    
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        visited = [0 for _ in range(numCourses)]
+        graph = collections.defaultdict(list)
+        for pair in prerequisites:
+            graph[pair[0]].append(pair[1])
+        res = []
+        def dfs(course):
+            if visited[course] == 1:
+                return True
+            if visited[course] == -1:
+                return False
+            visited[course] = -1
+            for i in graph[course]:
+                current = dfs(i)
+                if current == False:
+                    return False
+            visited[course] = 1
+            res.append(course)
+            return True
+        for i in range(numCourses):
+            if not visited[i]:
+                current = dfs(i)
+                if not current:
+                    return []
+        return res
+            
