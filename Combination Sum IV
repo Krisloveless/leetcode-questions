@@ -1,0 +1,13 @@
+# dp from 0 - 4 
+# minus j means adding j to the back will add dp[i-j] new combinations
+
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        dp = [0 for _ in range(target + 1)]
+        dp[0] = 1
+        for i in range(1, target + 1):
+            for j in nums:
+                # print(i, j)
+                if i >= j:
+                    dp[i] += dp[i-j]
+        return dp[-1]
