@@ -92,6 +92,7 @@ class Solution:
                 elif p[j] == '*':
                     dp[i][j] = dp[i][j-2]
                     if s[i] == p[j-1] or p[j-1] == '.':
+                        # go up because previous row is valid
                         dp[i][j] |= dp[i-1][j]
         # print(dp)
         return dp[-1][-1]
