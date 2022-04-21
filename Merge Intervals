@@ -1,0 +1,14 @@
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        stack = []
+        intervals.sort(key=lambda x: (x[0], x[1]))
+        vec = collections.deque(intervals)
+        # print(intervals)
+        while vec:
+            group = vec.popleft()
+            if stack and stack[-1][1] >= group[0]:
+                pre = stack.pop()
+                stack.append([pre[0], group[1] if group[1] > pre[1] else pre[1]])
+            else:
+                stack.append(group)
+        return stack
