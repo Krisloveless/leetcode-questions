@@ -1,0 +1,18 @@
+class Solution:
+    def minReorder(self, n: int, connections: List[List[int]]) -> int:
+        # there is only one way to travel between two different cities (this network form a tree).
+        res = [0]    
+        roads = set()
+        graph = collections.defaultdict(list)
+        for u, v in connections:
+            roads.add((u, v))
+            graph[v].append(u)
+            graph[u].append(v)
+        def dfs(u, parent):
+            res[0] += (parent, u) in roads
+            for v in graph[u]:
+                if v == parent:
+                    continue
+                dfs(v, u)    
+        dfs(0, -1)
+        return res[0]
