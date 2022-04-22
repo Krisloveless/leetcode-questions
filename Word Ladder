@@ -1,0 +1,19 @@
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        d = collections.defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                d[word[:i]+'*'+word[i+1:]].append(word)
+        visited = set()
+        ans = [float('inf')]
+        q = collections.deque([(beginWord, 1)])
+        while q:
+            word, length = q.popleft()
+            if word == endWord:
+                return length
+            visited.add(word)
+            for i in range(len(word)):
+                for j in d[word[:i]+'*'+word[i+1:]]:
+                    if j not in visited:
+                        q.append((j, length+1))
+        return 0
