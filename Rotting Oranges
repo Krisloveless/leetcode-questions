@@ -1,0 +1,32 @@
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        rest = set()
+        m = len(grid)
+        n = len(grid[0])
+        vec = []
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    rest.add((i, j))
+                if grid[i][j] == 2:
+                    vec.append((i, j))
+        vec = collections.deque(vec)
+        ans = -1
+        directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+        if not rest:
+            return 0
+        while vec:
+            size = len(vec)
+            for _ in range(size):
+                value = vec.popleft()
+                for l, r in directions:
+                    # print(vec, rest, l, r, value)
+                    next_value = (value[0] + l, value[1] + r)
+                    if next_value in rest:
+                        
+                        rest.remove(next_value)
+                        vec.append(next_value)
+            ans += 1
+        if rest:
+            return -1
+        return ans
