@@ -1,0 +1,15 @@
+class Solution:
+    def carFleet(self, target, pos, speed):
+        time = [float(target - p) / s for p, s in sorted(zip(pos, speed))]
+        # based on the original position,
+        # do a sort,
+        # calculate the time to get to target
+        # reverse iterate, if value current value is 
+        # larger than the time needed, a new fleet is
+        # detected.
+        res = cur = 0
+        for t in time[::-1]:
+            if t > cur:
+                res += 1
+                cur = t
+        return res
