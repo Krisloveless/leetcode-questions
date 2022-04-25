@@ -1,0 +1,29 @@
+# [1] allows you to build all numbers within [1, 2)
+
+# Does 2 (the next num) allow you to hit that next number? Yes, and so then it extends your range by +2 to go from [1, 2) to [1, 4)
+
+# [1, 2] allows you to build all numbers within [1, 4)
+
+# Does 4 allow you to hit that next number? Yes, so the same logic applies
+
+# [1, 2, 4] allows you to build all numbers within [1, 8)
+
+# Does 13 allow you to hit that next number? No. And here on out is where he began his explanation.
+
+#
+#Let miss be the smallest sum in [0,n] that we might be missing. Meaning we already know we can build all sums in [0,miss). Then if we have a number num <= miss in the given array, we can add it to those smaller sums to build all sums in [0,miss+num). If we don't, then we must add such a number to the array, and it's best to add miss itself, to maximize the reach.
+#
+class Solution:
+    def minPatches(self, nums: List[int], n: int) -> int:
+        miss = 1
+        added = 0
+        i = 0
+        size = len(nums)
+        while miss <= n:
+            if i < size and nums[i] <= miss:
+                miss += nums[i]
+                i += 1
+            else:
+                miss += miss
+                added += 1
+        return added
