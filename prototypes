@@ -22,15 +22,15 @@ def helper(a, b, k=3):
         tag = -tag
         p += 1
     final = a if tag > 0 else b
-    print(final, pre, )
+    #print(final, pre, )
     return final[(k - pre - 1) % len(final)]
 
 # print(helper(a, b, 7))
 
 def helper1(a = 2):
     for i in range(3):
-        print(a ,":", a ^ i)
-    
+        #print(a ,":", a ^ i)
+        pass    
 # helper1(1)
 # helper1(2)
 # helper1(3)
@@ -38,7 +38,7 @@ def helper1(a = 2):
 s = 43121
 def helperx(s):
     arr = [int(i) if idx % 2 == 0 else -int(i) for idx, i in enumerate(str(s))]
-    print(arr)
+    # print(arr)
     return sum(arr)
 #helperx(s)
 
@@ -216,7 +216,7 @@ def TopN(comp, topNC, reviews):
         for j in helper(line):
             if j in seen:
                 d[j] += 1
-    print(d)
+    #print(d)
     def comp(a, b):
         if a[1] > b[1]:
             return 1
@@ -341,7 +341,7 @@ def promotion(codeList, cart):
     return helper(0, 0)
 #print(promotion(codeList, shoppingCart))
 
-
+import collections
 userSongs = {  
    "David": ["song1", "song2", "song3", "song4", "song8"],
    "Emma":  ["song5", "song6", "song7"]
@@ -369,11 +369,11 @@ def popsongs(song, genre):
                 d[k][songToGenre[i]] += 1
                 val = max(val, d[k][songToGenre[i]])
         maxd[k] = val
-    print(d, maxd)
+    #print(d, maxd)
     res = {}
     for i in maxd:
         current = d[i]
-        print(current)
+        #print(current)
         res[i] = [ k for k, v in current.items() if v == maxd[i]]
     return res
-print(popsongs(userSongs, songGenres))
+#print(popsongs(userSongs, songGenres))
