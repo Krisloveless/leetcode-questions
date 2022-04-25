@@ -13,3 +13,5 @@ def nextPermutation(self, nums):
     while l < r:
         nums[l], nums[r] = nums[r], nums[l]
         l +=1 ; r -= 1
+# https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
+# 0 1 2 5 3 3 0
