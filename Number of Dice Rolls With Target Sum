@@ -1,0 +1,14 @@
+class Solution:
+    def numRollsToTarget(self, n: int, k: int, target: int) -> int:
+        @cache
+        def throw(n, target):
+            if n == 0 and target == 0:
+                return 1
+            if n == 0 or target == 0:
+                return 0
+            res = 0
+            for i in range(1, k+1):
+                res += throw(n - 1, target - i)
+            res %= 10**9 + 7     
+            return res
+        return throw(n, target)
