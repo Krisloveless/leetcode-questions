@@ -1,0 +1,38 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def recoverFromPreorder(self, traversal: str) -> Optional[TreeNode]:
+        def find(p, target):
+            res = []
+            span = len(p)
+            cur = 0
+            while cur != len(target):
+                if p == target[cur:cur+span] and \
+                target[cur-1].isdigit() and target[cur+span].isdigit():
+                    res.append(cur)
+                cur += 1
+            return res
+        
+        def trace(string, level):
+            # print(string, level)
+            if not string:
+                return None
+            res = find(level, string)
+            # print(res)
+            if len(res) == 2:
+                l, r = res[0], res[1]
+            elif len(res) == 1:
+                l, r = res[0], len(string)
+            else:
+                return TreeNode(int(string))
+            span = len(level)
+            number = int(string[:l])
+            node = TreeNode(number)
+            node.left = trace(string[l+span:r], level+'-')
+            node.right = trace(string[r+span:], level+'-')
+            return node
+        return trace(traversal, '-')
