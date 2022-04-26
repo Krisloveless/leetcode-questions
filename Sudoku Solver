@@ -1,0 +1,57 @@
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        def isRowValid(row, col, num):
+            for i in range(9):
+                if i == col:
+                    continue
+                if board[row][i] != '.' and int(board[row][i]) == num:
+                    return False
+            return True
+        
+        def isColValid(row, col, num):
+            for i in range(9):
+                if i == row:
+                    continue
+                if board[i][col] != '.' and int(board[i][col]) == num:
+                    return False
+            return True
+        
+        def isBoxValid(row, col, num):
+            start_row = row // 3 * 3
+            start_col = col // 3 * 3
+            for i in range(9):
+                local_row = i // 3 + start_row
+                local_col = i % 3 + start_col
+                if local_row == row and local_col == col:
+                    continue
+                if board[local_row][local_col] != '.' and int(board[local_row][local_col]) == num:
+                    return False
+            return True
+        
+        def isValid(x, y, num):
+            return isRowValid(x, y, num) and isColValid(x, y, num) and isBoxValid(x, y, num)
+        
+        def solve():
+            for i in range(9):
+                for j in range(9):
+                    if board[i][j] != '.':
+                        continue
+                    for k in range(1, 10):
+                        if isValid(i, j, k):
+                            board[i][j] = str(k)
+                            res = solve()
+                            if res:
+                                return True
+                            else:
+                                board[i][j] = '.'
+                    return False
+            return True
+        solve()
+        # for i in range(9):
+        #     for j in range(9):
+        #         print(board[i][j], end=" ")
+        #     print()
+            
