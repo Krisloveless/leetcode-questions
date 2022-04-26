@@ -1,0 +1,42 @@
+class Solution:
+    def diffWaysToCompute(self, input: str) -> List[int]:
+        vec = collections.deque()
+        current = 0
+        input_deque = collections.deque([i for i in input])
+        input_deque.append('@')
+        while input_deque:
+            letter = input_deque.popleft()
+            if letter == '@':
+                vec.append(current)
+                break
+            if letter.isdigit():
+                current = 10 * current + int(letter)
+            else:
+                vec.append(current)
+                current = 0
+                vec.append(letter)
+        res = []
+        vec = list(vec)
+        seen = set()
+        vec_p = [str(i) for i in vec]
+        def run(q, pattern):
+            # print(q, pattern)
+            if len(q) == 1:
+                if pattern[0] in seen:
+                    return
+                seen.add(pattern[0])
+                res.append(q[0])
+                return
+            for i in range(len(q)):
+                if q[i] in {'-', '+', '*'}:
+                    if q[i] == '-':
+                        value = q[i-1] - q[i+1]
+                    elif q[i] == '+':
+                        value = q[i-1] + q[i+1]
+                    else:
+                        value = q[i-1] * q[i+1]
+                    # print(i, q[:i-1])
+                    combine = '(' + "".join(pattern[i-1:i+2]) + ')'
+                    run(q[:i-1] + [value] + q[i+2:], pattern[:i-1] + [combine] + pattern[i+2:])
+        run(vec, vec_p)
+        return res
