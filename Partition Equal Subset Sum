@@ -1,0 +1,16 @@
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s % 2 != 0:
+            return False
+        size = len(nums)
+        target = s // 2
+        # pick or not pick
+        @cache
+        def knap(pos, current):
+            if current == target:
+                return True
+            if pos < size:
+                return knap(pos+1, nums[pos] + current) or knap(pos+1, current)
+            return False
+        return knap(0, 0)
