@@ -1,0 +1,35 @@
+class Solution:
+    def uniquePathsIII(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        seen = set()
+        count = 0
+        start_i = None
+        start_j = None
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] != -1:
+                    count += 1
+                if grid[i][j] == 1:
+                    start_i = i
+                    start_j = j
+        ans = [0]
+        directions = [(1, 0), (0, 1), (0, -1), (-1, 0)]
+        def trace(x, y):
+            if x < 0 or y < 0 or x >= m or y >= n:
+                return
+            if (x, y) in seen:
+                return
+            if grid[x][y] == -1:
+                return
+            seen.add((x, y))
+            if grid[x][y] == 2 and len(seen) == count:
+                # print(seen)
+                ans[0] += 1
+                seen.remove((x, y))
+                return
+            for i, j in directions:
+                trace(x+i, y+j)
+            seen.remove((x, y))
+        trace(start_i, start_j)
+        return ans[0]
