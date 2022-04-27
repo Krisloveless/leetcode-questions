@@ -5,7 +5,7 @@ class Solution:
         def helper(pos):
             if pos >= size:
                 return 0
-            pick =questions[pos][0] + helper(pos + questions[pos][1] + 1)
+            pick = questions[pos][0] + helper(pos + questions[pos][1] + 1)
             skip = helper(pos + 1)
             # print(pos, skip, pick)
             return max(skip, pick)
