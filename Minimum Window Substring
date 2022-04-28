@@ -24,3 +24,32 @@ class Solution:
                     d[s[l]] += 1
                 l += 1
         return res
+
+
+class Solution:
+    def minWindow(self, s: str, t: str) -> str:
+        count = len(t)
+        d = {}
+        for i in t:
+            d.setdefault(i, 0)
+            d[i] += 1
+        l, r = 0, 0
+        max_l = float('inf')
+        res = ""
+        size = len(s)
+        while r != size:
+            if s[r] in d:
+                if d[s[r]] > 0:
+                    count -= 1
+                d[s[r]] -= 1
+            r += 1
+            while count == 0:
+                if max_l > r - l:
+                    max_l = r - l
+                    res = s[l:r]
+                if s[l] in d:
+                    if d[s[l]] == 0:
+                        count += 1
+                    d[s[l]] += 1
+                l += 1
+        return res
