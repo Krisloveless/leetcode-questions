@@ -1,0 +1,15 @@
+class Solution:
+    def numTilePossibilities(self, tiles: str) -> int:
+        seen = set()
+        size = len(tiles)
+        def helper(tiles, current):
+            if not tiles:
+                seen.add(current)
+                return
+            for i in range(len(tiles)):
+                helper(tiles[:i] + tiles[i+1:], current + tiles[i])
+                helper(tiles[:i] + tiles[i+1:], current)
+            return
+        helper(tiles, "")
+        # print(seen)
+        return len(seen) - 1
