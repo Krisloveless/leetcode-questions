@@ -1,0 +1,46 @@
+class Solution:
+    #https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs/discuss/1009828/Simple-Python-using-Partition-to-K-Equal-Sum-Subsets
+#     def minimumTimeRequired(self, A, k):
+#         n = len(A)
+#         A.sort(reverse=True) # opt 1
+#         self.res = sum(A)
+#         count = [0] * k
+
+#         def dfs(i):
+#             # print(i, count, self.res)
+#             if i == n:
+#                 self.res = min(self.res, max(count))
+#                 return
+#             for j in range(k):
+#                 if count[j] + A[i] < self.res: # opt 3
+#                     count[j] += A[i]
+#                     dfs(i + 1)
+#                     count[j] -= A[i]
+#                 if count[j] == 0: break # opt 2
+#         dfs(0)
+#         return self.res
+    def minimumTimeRequired(self, jobs: List[int], k: int) -> int:
+            jobs.sort(reverse=True) # optimization (1)
+
+            def possible(target, buckets, idx):
+                if idx == len(jobs):
+                    return True
+                for i in range(len(buckets)):
+                    buckets[i] += jobs[idx]
+                    if buckets[i] <= target and possible(target, buckets, idx+1):
+                        return True
+                    buckets[i] -= jobs[idx]
+                    if buckets[i] == 0: # optimization (2)
+                        break
+                return False  
+
+            lo = max(jobs)
+            hi = sum(jobs)
+            while lo < hi:
+                mid = lo + hi >> 1
+                b = [0] * k
+                if not possible(mid, b, 0):
+                    lo = mid + 1
+                else:
+                    hi = mid
+            return lo
