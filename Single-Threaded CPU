@@ -1,0 +1,26 @@
+import heapq
+class Solution:
+    def getOrder(self, tasks: List[List[int]]) -> List[int]:
+        event = sorted([[val[0], val[1], idx] for idx, val in enumerate(tasks)])
+        h = []
+        # print(event, h)
+        size = len(event)
+        p = 1
+        # start from the second task
+        t = event[0][0] + event[0][1]
+        res = [event[0][2]]
+        # h tasks that are currently equeued
+        # p is the current task pointer
+        while h or p != size:  
+            while p != size and event[p][0] <= t:
+                _, val, idx = event[p]
+                heapq.heappush(h, (val, idx))
+                p += 1
+            # print(h, p, event)
+            if h:
+                val_c, idx_c = heapq.heappop(h)
+                res.append(idx_c)
+                t += val_c
+            else:
+                t = event[p][0]
+        return res
