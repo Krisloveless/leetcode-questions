@@ -1,0 +1,20 @@
+https://leetcode.com/discuss/interview-question/1392284/solving-tower-of-hanoi-using-the-magic-of-recursion
+// move n disks from a to b
+public static void toh(int n, char ta, char tb, char tc){
+        //if we dont have any disks, then just end the function
+        if(n == 0)
+            return;
+
+        /*
+        now transfer n-1 (2 disks) from tower a to tower c using tower b
+         */
+        toh(n-1, ta, tc, tb);
+
+        //now transfer the third (nth) disk from tower a to b
+        System.out.println(n+"["+ta+"->"+tb+"]");
+
+        /*
+        now just transfer those n-1 (2 disks) from tower c to tower b
+         */
+        toh(n-1, tc, tb, ta);
+    }
