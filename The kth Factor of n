@@ -1,0 +1,21 @@
+class Solution:
+    def kthFactor(self, n: int, k: int) -> int:
+        seen = set()
+        h = []
+        i = 1
+        while i not in seen:
+            if n % i == 0:
+                seen.add(i)
+                heapq.heappush(h, i)
+                if i != n // i:
+                    seen.add(n // i)
+                    heapq.heappush(h, n // i)
+                else:
+                    break
+            i += 1
+        # print(h)
+        if len(h) < k:
+            return -1
+        for _ in range(k):
+            ans = heapq.heappop(h)
+        return ans
