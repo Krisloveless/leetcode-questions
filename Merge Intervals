@@ -12,3 +12,17 @@ class Solution:
             else:
                 stack.append(group)
         return stack
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        stack = []
+        p = 0
+        size = len(intervals)
+        while p != size:
+            if stack and stack[-1][1] >= intervals[p][0]:
+                stack[-1][1] = max(intervals[p][1], stack[-1][1])
+            else:
+                stack.append(intervals[p])
+            p += 1
+        return stack
