@@ -1,0 +1,49 @@
+class direction:
+    def __init__(self, value=(0, 0)):
+        self.val = value
+        self.d = {}
+
+# class Solution:
+#     def isRobotBounded(self, instructions: str) -> bool:
+#         instructions *= 4
+#         N = direction((0, 1))
+#         S = direction((0, -1))
+#         W = direction((-1, 0))
+#         E = direction((1, 0))
+#         N.d['L'] = W
+#         N.d['R'] = E
+#         W.d['L'] = S
+#         W.d['R'] = N
+#         E.d['L'] = N
+#         E.d['R'] = S
+#         S.d['L'] = E
+#         S.d['R'] = W
+#         current = N
+#         vec = []
+#         for i in instructions:
+#             if i == 'G':
+#                 vec.append(current.val)
+#             else:
+#                 current = current.d[i]
+#         # print(vec)
+#         # print(sum([l for l, r in vec]), sum([r for l, r in vec]))
+#         l, r = sum([l for l, r in vec]), sum([r for l, r in vec])
+#         return True if l == r == 0 else False
+        
+# Starting at the origin and face north (0,1),
+#    after one sequence of instructions,
+
+#    if chopper return to the origin, he is obvious in an circle.
+#    if chopper finishes with face not towards north,
+#    it will get back to the initial status in another one or three sequences.
+#
+#
+    
+class Solution:      
+    def isRobotBounded(self, instructions):
+        x, y, dx, dy = 0, 0, 0, 1
+        for i in instructions:
+            if i == 'R': dx, dy = dy, -dx
+            if i == 'L': dx, dy = -dy, dx
+            if i == 'G': x, y = x + dx, y + dy
+        return (x, y) == (0, 0) or (dx, dy) != (0,1)
