@@ -1,0 +1,15 @@
+class Node:
+    def __init__(self):
+        self.children = collections.defaultdict(Node)
+        self.isWord = False
+        
+class Trie:
+    def __init__(self):
+        self.root = Node()
+        
+    def insert(self, string):
+        node = self.root
+        for i in word:
+            node = node.children[i]
+        node.isWord = True
+        
