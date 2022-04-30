@@ -1,0 +1,26 @@
+import heapq
+class Solution:
+    def maximumElementAfterDecrementingAndRearranging(self, arr: List[int]) -> int:
+        heapq.heapify(arr)
+        ans = 1
+        heapq.heappop(arr)
+        pre = 1
+        if not arr:
+            return 1
+        current = arr[0]
+        # always downgrading the lowest value
+        while arr:
+            # if valid we set to ans
+            # not valid we make pre increase 1 as ans
+            if abs(pre - current) <= 1:
+                ans = current
+            else:
+                ans = pre + 1
+                current = ans
+            heapq.heappop(arr)
+            if not arr:
+                break
+            pre = current
+            current = arr[0]
+        return ans
+            
