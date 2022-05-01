@@ -1,14 +1,27 @@
 class Solution:
     def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
-        d = collections.defaultdict(int)
-        for i in barcodes:
-            d[i] += 1
-        dlist = list(d.items())
-        dlist.sort(key=lambda x: -x[1])
-        vec = []
-        for i in dlist:
-            vec += i[1] * [i[0]]
-        # print(vec)
-        half = len(vec[::2])
-        vec[::2], vec[1::2] = vec[:half], vec[half:]
-        return vec
+        # d = collections.defaultdict(int)
+        # for i in barcodes:
+        #     d[i] += 1
+        # dlist = list(d.items())
+        # dlist.sort(key=lambda x: -x[1])
+        # vec = []
+        # for i in dlist:
+        #     vec += i[1] * [i[0]]
+        # # print(vec)
+        # half = len(vec[::2])
+        # vec[::2], vec[1::2] = vec[:half], vec[half:]
+        # return vec
+        vec = [(-val, key) for key, val in collections.Counter(barcodes).items()]
+        heapq.heapify(vec)
+        p_v, p_k = 0, None
+        res = []
+        while vec:
+            v, k = heapq.heappop(vec)
+            res += [k]
+            if p_v < 0:
+                heapq.heappush(vec, (p_v, p_k))
+            p_v = v + 1
+            p_k = k
+        return res
+            
