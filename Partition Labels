@@ -1,0 +1,22 @@
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        d = collections.defaultdict(list)
+        for idx, val in enumerate(s):
+            d[val].append(idx)
+        range_d = [[d[k][0], d[k][-1] + 1] for k, v in d.items()]
+        range_d.sort()
+        vec = collections.deque(range_d)
+        stack = []
+        # print(vec)
+        while vec:
+            start, end = vec.popleft()
+            if not stack:
+                stack.append([start, end])
+                continue
+            if end < stack[-1][1]:
+                continue
+            elif start >= stack[-1][1]:
+                stack.append([start, end])
+            else:
+                stack[-1][1] = end
+        return [e - s for s, e in stack]
