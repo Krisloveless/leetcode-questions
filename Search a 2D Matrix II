@@ -1,0 +1,15 @@
+class Solution:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        m = len(matrix) 
+        n = len(matrix[0])
+        x, y = m - 1, n - 1
+        @cache
+        def trace(x, y):
+            if x < 0 or y < 0:
+                return False
+            if matrix[x][y] == target:
+                return True
+            elif matrix[x][y] < target:
+                return False
+            return trace(x, y-1) or trace(x-1, y)
+        return trace(x, y)
