@@ -1,0 +1,22 @@
+class Solution:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        f = {x: x for x in range(n)}
+        res = []
+        original = f.copy()
+        def find(x):
+            return x if f[x] == x else find(f[x])
+        
+        def union(x, y):
+            f[find(x)] = find(y)
+        
+        for i in range(len(connections)):
+            f = original.copy()
+            for j in range(len(connections)):
+                if i == j:
+                    continue
+                union(connections[j][0], connections[j][1])
+                print(f)
+            print(f, set([find(i) for i in range(n)]))
+            if len(set([find(k) for k in range(n)])) > 1:
+                res.append(connections[i])
+        return res
