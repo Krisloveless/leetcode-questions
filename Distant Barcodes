@@ -1,0 +1,14 @@
+class Solution:
+    def rearrangeBarcodes(self, barcodes: List[int]) -> List[int]:
+        d = collections.defaultdict(int)
+        for i in barcodes:
+            d[i] += 1
+        dlist = list(d.items())
+        dlist.sort(key=lambda x: -x[1])
+        vec = []
+        for i in dlist:
+            vec += i[1] * [i[0]]
+        # print(vec)
+        half = len(vec[::2])
+        vec[::2], vec[1::2] = vec[:half], vec[half:]
+        return vec
