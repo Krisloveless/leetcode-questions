@@ -1,0 +1,28 @@
+class Solution:
+    def calculate(self, s: str) -> int:
+        s += '@'
+        vec = collections.deque([i for i in s])
+        def helper(string):
+            stack = []
+            current = 0
+            sign = '+'
+            while string:
+                # print(stack)
+                letter = string.popleft()
+                if letter.isdigit():
+                    current = 10 * current + int(letter)
+                if letter == ' ':
+                    continue
+                if letter == '(':
+                    current = helper(string)
+                if letter in {'+', '-', ')', '@'}:
+                    if sign == '+':
+                        stack.append(current)
+                    elif sign == '-':
+                        stack.append(-current)
+                    sign = letter
+                    current = 0
+                    if sign in {')', '@'}:
+                        break
+            return sum(stack)
+        return helper(vec)
