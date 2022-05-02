@@ -1,0 +1,22 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        seen = set(wordDict)
+        size = len(s)
+        @cache
+        def helper(string):
+            if not string:
+                return [[]]
+            res = []
+            for i in range(1, len(string)+1):
+                val = string[:i]
+                rest = string[i:]
+                if val in seen and helper(rest) is not None:
+                    for i in helper(rest):
+                        current = [val] + i
+                        res.append(current)
+            return None if not res else res    
+        # print(helper(s))
+        ans = helper(s)
+        if ans is None:
+            return []
+        return [" ".join(i) for i in ans]
