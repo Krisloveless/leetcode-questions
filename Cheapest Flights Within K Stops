@@ -1,0 +1,40 @@
+class Solution:
+    # def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+    #     seen = set()
+    #     graph = collections.defaultdict(list)
+    #     for s, e, cost in flights:
+    #         graph[s].append((cost, e))
+    #     def helper(k, target):
+    #         # print(k, target)
+    #         if target == dst:
+    #             return 0
+    #         if k == 0:
+    #             return float('inf')
+    #         k -= 1
+    #         seen.add(target)
+    #         ans = float('inf')
+    #         for group in graph[target]:
+    #             cost, end = group
+    #             if end in seen:
+    #                 continue
+    #             ans = min(ans, cost + helper(k, end))
+    #         seen.remove(target)
+    #         return ans
+    #     ans = helper(k+1, src)
+    #     if ans == float('inf'):
+    #         return -1
+    #     return ans
+    #TLE heap f = collections.defaultdict(dict) is a good way to add cost
+    def findCheapestPrice(self, n, flights, src, dst, k):
+        f = collections.defaultdict(dict)
+        for a, b, p in flights:
+            f[a][b] = p
+        heap = [(0, src, k + 1)]
+        while heap:
+            p, i, k = heapq.heappop(heap)
+            if i == dst:
+                return p
+            if k > 0:
+                for j in f[i]:
+                    heapq.heappush(heap, (p + f[i][j], j, k - 1))
+        return -1
