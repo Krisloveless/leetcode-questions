@@ -1,0 +1,13 @@
+class Solution:
+    def combinationSum3(self, k: int, n: int) -> List[List[int]]:
+        res = []
+        def helper(k, current):
+            if k == 0:
+                if sum(current) == n:
+                    res.append(current)
+                return
+            last = current[-1] if current else 0
+            for i in range(last+1, 10):
+                helper(k-1, current+[i])
+        helper(k, [])
+        return res
