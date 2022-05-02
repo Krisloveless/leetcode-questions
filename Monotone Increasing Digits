@@ -1,0 +1,18 @@
+class Solution:
+    def monotoneIncreasingDigits(self, n: int) -> int:
+        vec = [int(i) for i in str(n)][::-1]
+        size = len(vec)
+        res = []
+        idx = -1
+        for i in range(size - 1):
+            # print(res, vec[i], vec[i+1], i)
+            if vec[i] < vec[i+1]:
+                idx = i
+                res.append(str('9'))
+                vec[i+1] -= 1
+            else:
+                res.append(str(vec[i]))
+        res.append(str(vec[-1]))
+        # overwrite 9s
+        res = (idx + 1) * ['9'] + res[idx+1:]
+        return int("".join(res[::-1]))
