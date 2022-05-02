@@ -1,0 +1,26 @@
+class Solution:
+    def removeDuplicates(self, s: str, k: int) -> str:
+        current = None
+        count = 0
+        stack = []
+        vec = collections.deque([i for i in s])
+        while vec:
+            val = vec.popleft()
+            if val == current:
+                count += 1
+            else:
+                current = val
+                count = 1
+            stack.append((current, count))
+            # print(stack)
+            if count == k:
+                for i in range(k):
+                    stack.pop()
+                if stack:
+                    current = stack[-1][0]
+                    count = stack[-1][1]
+                else:
+                    current = None
+                    count = 0
+        # print(stack)
+        return "".join([i[0] for i in stack])
