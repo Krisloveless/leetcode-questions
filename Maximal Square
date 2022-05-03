@@ -1,0 +1,31 @@
+class Solution:
+    def maximalSquare(self, array: List[List[str]]) -> int:
+        if len(array) == 0:
+            return 0 
+        m = len(array)
+        n = len(array[0])
+        dp = [[0 for i in range(n+1)] for i in range(m+1)]
+        #print(dp)
+        size = 0
+        for i in range(m):
+            for j in range(n):
+                if array[i][j] == "1":
+	    # here we take the shortest edge to be the current edge
+                    dp[i+1][j+1] = min(dp[i][j+1], dp[i+1][j], dp[i][j]) + 1
+                    size = max(size, dp[i+1][j+1])
+        return size**2
+
+class Solution:
+    def maximalSquare(self, array: List[List[str]]) -> int:
+        m = len(array)
+        n = len(array[0])
+        array = [[int(i) for i in row] for row in array]
+        maxl = 1 if 1 in set(array[0]) or 1 in set([array[i][0] for i in range(m)]) else 0
+        for i in range(1, m):
+            for j in range(1, n):
+                if array[i][j] == 1:
+                    array[i][j] = min(array[i-1][j-1], array[i-1][j], array[i][j-1]) + 1
+                    if maxl < array[i][j]:
+                        maxl = array[i][j]
+        # print(array)
+        return maxl**2
