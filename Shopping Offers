@@ -1,0 +1,19 @@
+class Solution:
+    def shoppingOffers(self, price: List[int], special: List[List[int]], needs: List[int]) -> int:
+        cache = {}
+        n = len(needs)
+        def helper(value):
+            # print(value)
+            if value in cache:
+                return cache[value]
+            res = float('inf')
+            for offer in special:
+                cost = offer[-1]
+                vec = offer[:-1]
+                if all([value[i] >= vec[i] for i in range(n)]):
+                    next_val = [n - s for n, s in zip(value, vec)]
+                    res = min(res, helper(tuple(next_val)) + cost)
+            res = min(res, sum([p * n for p, n in zip(price, value)]))
+            cache[value] = res
+            return res
+        return helper(tuple(needs))
