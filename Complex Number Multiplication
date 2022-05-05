@@ -1,0 +1,18 @@
+class Complex:
+    def __init__(self, num="0+1i"):
+        vec = num.split('+')
+        self.real = int(vec[0])
+        self.imag = int(vec[1].rstrip('i'))
+
+    def get_string(self):
+        return str(self.real) + '+' + str(self.imag) + 'i'
+    
+class Solution:
+    def complexNumberMultiply(self, num1: str, num2: str) -> str:
+        n1 = Complex(num1)
+        n2 = Complex(num2)
+        
+        res = Complex()
+        res.real = n1.real * n2.real - n1.imag * n2.imag
+        res.imag = n1.real * n2.imag + n1.imag * n2.real
+        return res.get_string()
