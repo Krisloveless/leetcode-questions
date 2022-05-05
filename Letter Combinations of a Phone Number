@@ -1,0 +1,18 @@
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
+        if not digits:
+            return []
+        buttons = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
+        @cache
+        def helper(digits):
+            if not digits:
+                return [""]
+            res = []
+            next_d = int(digits[0])
+            rest = digits[1:]
+            for i in buttons[next_d]:
+                for rest_out in helper(rest):
+                    res.append(i + rest_out)
+            return res
+        
+        return helper(digits)
