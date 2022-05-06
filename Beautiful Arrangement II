@@ -1,0 +1,27 @@
+class Solution:
+    def constructArray(self, n: int, k: int) -> List[int]:
+        # res = []
+        # def helper(vec, current):
+        #     # print(current)
+        #     if not vec:
+        #         # print(len(set([abs(current[i] - current[i+1]) for i in range(n-1)])))
+        #         if k == len(set([abs(current[i] - current[i+1]) for i in range(n-1)])):
+        #             res.append(current)
+        #             return True
+        #         return False
+        #     for i in range(len(vec)):
+        #         pick = vec[i]
+        #         rest = vec[:i] + vec[i+1:]
+        #         if helper(rest, current + [pick]):
+        #             return True
+        #     return False
+        # helper([i for i in range(1, n+1)], [])
+        # return res[0]
+        # n gives max n-1 difference
+        ans = [i for i in range(1, n+1)]
+        vec = ans[:k+1]
+        half = len(vec[::2]) - 1
+        # print(vec[:half])
+        vec[::2], vec[1::2] = vec[:half+1], vec[:half:-1]
+        ans[:k+1] = vec
+        return ans
