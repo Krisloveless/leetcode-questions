@@ -1,0 +1,17 @@
+class MyCalendarTwo:
+
+    def __init__(self):
+        self.d = collections.defaultdict(int)
+
+    def book(self, start: int, end: int) -> bool:
+        self.d[start] += 1
+        self.d[end] -= 1
+
+        peak = 0
+        for k in sorted(self.d):
+            peak += self.d[k]
+            if peak >= 3:
+                self.d[start] -= 1
+                self.d[end] += 1
+                return False
+        return True
