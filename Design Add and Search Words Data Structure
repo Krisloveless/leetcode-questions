@@ -1,0 +1,45 @@
+class Node:
+    def __init__(self):
+        self.children = collections.defaultdict(Node)
+        self.is_word = False
+        
+class Trie:
+    def __init__(self):
+        self.root = Node()
+        
+    def insert(self, word):
+        node = self.root
+        for i in word:
+            node = node.children[i]
+        node.is_word = True
+        
+class WordDictionary:
+
+    def __init__(self):
+        self.trie = Trie()
+        
+    def addWord(self, word: str) -> None:
+        self.trie.insert(word)
+
+    def search(self, word: str) -> bool:
+        def helper(word, node):
+            if not word and node.is_word:
+                return True
+            elif not word:
+                return False
+            letter = word[0]
+            rest = word[1:]
+            if letter == '.':
+                for i in node.children.values():
+                    if helper(rest, i):
+                        return True
+            if letter in node.children and helper(rest, node.children[letter]):
+                return True
+            return False
+        return helper(word, self.trie.root)
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
