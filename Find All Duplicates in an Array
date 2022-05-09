@@ -1,0 +1,23 @@
+class Solution:
+    def findDuplicates(self, nums: List[int]) -> List[int]:
+        l = 0
+        size = len(nums)
+        res = []
+        def trace(pos):
+            val = nums[pos]
+            if val == -1:
+                nums[pos] = 0
+                return
+            if val == 0:
+                res.append(pos+1)
+                return
+            nums[pos] = 0
+            trace(val-1)
+            
+        while l != size:
+            next_idx = nums[l]
+            if next_idx != -1 and next_idx != 0:
+                nums[l] = -1
+                trace(next_idx-1)
+            l += 1
+        return res
