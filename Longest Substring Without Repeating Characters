@@ -17,3 +17,19 @@ public:
         return maxLen;
     }
 };
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        ans = 0
+        l = r = 0
+        size = len(s)
+        d = collections.defaultdict(int)
+        while r != size:
+            d[s[r]] += 1
+            while d[s[r]] == 2:
+                d[s[l]] -= 1
+                l += 1
+            # print(ans, l, r)
+            ans = max(ans, r - l + 1)
+            r += 1
+        return ans
