@@ -1,0 +1,34 @@
+class Solution:
+# @param A, a list of integers
+# @return an integer
+    def trap(self, height):
+        tmp, left, right, water = [], 0, 0, 0
+        for i in height:
+            left = max(left, i)
+            tmp.append(left)
+        tmp.reverse()
+        for n, i in enumerate(reversed(height)):
+            right = max(right, i)
+            water += min(tmp[n], right) - i
+        return water
+        
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        size = len(height)
+        left, right = [], []
+        val = -float('inf')
+        for i in range(size):
+            if height[i] > val:
+                val = height[i]
+            left.append(val)
+        val = -float('inf')
+        for i in range(size-1, -1, -1):
+            if height[i] > val:
+                val = height[i]
+            right.append(val)
+        right = right[::-1]
+        # print(left, right)
+        ans = 0
+        for k, (l, r) in enumerate(zip(left, right)):
+            ans += min(l, r) - height[k]
+        return ans
