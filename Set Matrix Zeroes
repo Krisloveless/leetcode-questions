@@ -1,0 +1,43 @@
+class Solution:
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+        origin = set()
+        m = len(matrix)
+        n = len(matrix[0])
+        def helper(i, j, directions):
+            if i < 0 or j < 0 or i >= m or j >= n:
+                return
+            if (i, j) in origin and len(directions) == 1:
+                return 
+            matrix[i][j] = 0
+            for c, r in directions:
+                helper(i+c, j+r, [[c, r]])
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == 0:
+                    origin.add((i, j))
+        for i in range(m):
+            for j in range(n):
+                if (i, j) in origin:
+                    helper(i, j, directions)
+    
+    def setZeroes(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        zeros = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == 0:
+                    zeros.append((i,j))
+        m = len(matrix)
+        n = len(matrix[0])
+        for x, y in zeros:
+            for i in range(n):
+                matrix[x][i] = 0
+            for i in range(m):
+                matrix[i][y] = 0
+        
