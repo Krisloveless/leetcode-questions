@@ -1,8 +1,16 @@
 
 
-
+from enum import Enum
+import math
+from functools import lru_cache
+from functools import cmp_to_key
+import collections
+import enum
+import code
+import bisect
 a = 'a'
 b = 'bc'
+
 
 def helper(a, b, k=3):
     first = len(a)
@@ -27,25 +35,33 @@ def helper(a, b, k=3):
 
 # print(helper(a, b, 7))
 
-def helper1(a = 2):
+
+def helper1(a=2):
     for i in range(3):
         #print(a ,":", a ^ i)
-        pass    
+        pass
 # helper1(1)
 # helper1(2)
 # helper1(3)
 
+
 s = 43121
+
+
 def helperx(s):
     arr = [int(i) if idx % 2 == 0 else -int(i) for idx, i in enumerate(str(s))]
     # print(arr)
     return sum(arr)
-#helperx(s)
+# helperx(s)
+
 
 A = ['one', 'two', 'three']
 B = ['onethreetwo', 'tone']
+
+
 def helper(A, B):
     store = set()
+
     def test(string):
         current = ''
         for i in range(len(string)):
@@ -63,8 +79,6 @@ def helper(A, B):
 #print(helper(A, B))
 
 
-
-
 # tag = False
 # for i in range(10):
 #     if tag:
@@ -73,9 +87,8 @@ def helper(A, B):
 #         if i * j == 24:
 #             tag = True
 #             break
-import bisect
-import code
-import enum
+
+
 def mp(input):
     tag = True if input >= 0 else False
     if not tag:
@@ -95,13 +108,13 @@ def mp(input):
         break
     return -int("".join(vec))
 
-#print(mp(1234),mp(7643),mp(0),mp(-661),)
+# print(mp(1234),mp(7643),mp(0),mp(-661),)
 
-
-import collections
 
 pile1 = [1, 1, 2, 2, 2, 3, 3, 3, 4, 4]
-pile = [5,2,1]
+pile = [5, 2, 1]
+
+
 def res(pile):
     pile.sort()
     d = {}
@@ -112,7 +125,7 @@ def res(pile):
             d[v] = 0
             continue
         if v not in d:
-            d[pile[idx-1]] *= current
+            d[pile[idx - 1]] *= current
             current += 1
             d[v] = 1
         else:
@@ -122,14 +135,16 @@ def res(pile):
 # print(res(pile))
 
 
-value = [1,2,3,5]
+value = [1, 2, 3, 5]
+
+
 def nextPermutation(value):
     current = [i for i in value]
     size = len(value)
     pivot = 0
     swapIdx = size - 1
     for i in range(size - 2, -1, -1):
-        if value[i] < value[i+1]:
+        if value[i] < value[i + 1]:
             pivot = i
             break
     for i in range(pivot + 1, size):
@@ -137,7 +152,7 @@ def nextPermutation(value):
             swapIdx = i - 1
             break
     value[pivot], value[swapIdx] = value[swapIdx], value[pivot]
-    value = value[:pivot+1] + value[pivot+1:][::-1]
+    value = value[:pivot + 1] + value[pivot + 1:][::-1]
     if current > value:
         print("End", current, value)
         return current
@@ -146,11 +161,10 @@ def nextPermutation(value):
 #     print(value)
 #     value = nextPermutation(value)
 
-import math
 
 def fiboncci(n):
     phi = (1 + math.sqrt(5)) / 2
-    return round(phi**n/ math.sqrt(5))
+    return round(phi**n / math.sqrt(5))
 
 # for i in range(100):
 #     print(fiboncci(i))
@@ -159,6 +173,8 @@ def fiboncci(n):
 value = "abbabbaaa"
 value = "babaa"
 value = "bbbab"
+
+
 def func(string):
     d = collections.defaultdict(int)
     pos = 0
@@ -177,27 +193,27 @@ def func(string):
     for i in d:
         ans += max_val - d[i]
     return ans
-#print(func(value))
+# print(func(value))
 
 
-
-
-numCompetitors=6
+numCompetitors = 6
 topNCompetitors = 2
 competitors = ["newshop", "shopnow", "afashion", "fashionbeats", "mymarket", "tcellular"]
 numReviews = 6
 reviews = [
-"newshop is providing good services in the city; everyone should use newshop",
-"best services by newshop",
-"fashionbeats has great services in the city",
-"I am proud to have fashionbeats",
-"mymarket has awesome services",
-"Thanks Newshop for the quick delivery"
+    "newshop is providing good services in the city; everyone should use newshop",
+    "best services by newshop",
+    "fashionbeats has great services in the city",
+    "I am proud to have fashionbeats",
+    "mymarket has awesome services",
+    "Thanks Newshop for the quick delivery"
 ]
-from functools import cmp_to_key
+
+
 def TopN(comp, topNC, reviews):
     d = collections.defaultdict(int)
     seen = set((comp))
+
     def helper(line):
         line += '@'
         size = len(line)
@@ -216,7 +232,8 @@ def TopN(comp, topNC, reviews):
         for j in helper(line):
             if j in seen:
                 d[j] += 1
-    #print(d)
+    # print(d)
+
     def comp(a, b):
         if a[1] > b[1]:
             return 1
@@ -227,16 +244,19 @@ def TopN(comp, topNC, reviews):
         elif a[0] < b[0]:
             return 1
         return 0
-    d = {"newshop":2, "shopnow":2, "mymarket":4}
+    d = {"newshop": 2, "shopnow": 2, "mymarket": 4}
     res = sorted(d.items(), key=cmp_to_key(comp), reverse=True)
     return [i[0] for i in res[:topNC]]
 
 #print(TopN(competitors, topNCompetitors, reviews))
 
+
 expr = "sub(add(1,6),3)"
 
 op = set(["add", "sub"])
 size = expr
+
+
 def eval(expr, pos):
     func_err_pos = pos
     local_op = ""
@@ -250,7 +270,7 @@ def eval(expr, pos):
             if c == '(':
                 if local_op not in op:
                     raise ValueError('{}: pos {} error'.format(local_op, func_err_pos))
-                sign = '+' if local_op == 'add' else '-'            
+                sign = '+' if local_op == 'add' else '-'
                 local_op = None
             else:
                 local_op += c
@@ -278,7 +298,9 @@ def eval(expr, pos):
 #print(eval([i for i in expr], 0))
 
 
-items = [[1, 2], [3, 4], [4, 5],[3,6], [2,100]]
+items = [[1, 2], [3, 4], [4, 5], [3, 6], [2, 100]]
+
+
 def trace(items):
     seen = set()
     maxV = [[]]
@@ -289,6 +311,7 @@ def trace(items):
         if k not in d[v]:
             d[v].append(k)
     # print(d)
+
     def helper(i, seenL):
         if i in seenL:
             # print(seenL)
@@ -303,19 +326,19 @@ def trace(items):
         if i not in seen:
             helper(i, set())
     return sorted(maxV[0])
-#print(trace(items))        
+# print(trace(items))
 
 
-# codeList = [["apple", "apple"], ["banana", "anything", "banana"]] 
+# codeList = [["apple", "apple"], ["banana", "anything", "banana"]]
 # shoppingCart = ["orange", "apple", "apple", "banana", "banana", "orange", "banana"]
-codeList = [["apple", "apple","banana"]] 
+codeList = [["apple", "apple", "banana"]]
 shoppingCart = ["orange", "apple", "apple", "banana", "banana", "orange", "banana"]
 
-from functools import lru_cache
 
 def promotion(codeList, cart):
     size = len(shoppingCart)
-    orderSize = len(codeList) 
+    orderSize = len(codeList)
+
     def check(vec1, vec2):
         size = len(vec1)
         for i in range(size):
@@ -324,6 +347,7 @@ def promotion(codeList, cart):
             if vec1[i] != vec2[i]:
                 return False
         return True
+
     @lru_cache
     def helper(pos, current):
         print(pos, current)
@@ -341,26 +365,27 @@ def promotion(codeList, cart):
     return helper(0, 0)
 #print(promotion(codeList, shoppingCart))
 
-import collections
-userSongs = {  
-   "David": ["song1", "song2", "song3", "song4", "song8"],
-   "Emma":  ["song5", "song6", "song7"]
+
+userSongs = {
+    "David": ["song1", "song2", "song3", "song4", "song8"],
+    "Emma": ["song5", "song6", "song7"]
 }
-songGenres = {  
-   "Rock":    ["song1", "song3"],
-   "Dubstep": ["song7"],
-   "Techno":  ["song2", "song4"],
-   "Pop":     ["song5", "song6"],
-   "Jazz":    ["song8", "song9"]
+songGenres = {
+    "Rock": ["song1", "song3"],
+    "Dubstep": ["song7"],
+    "Techno": ["song2", "song4"],
+    "Pop": ["song5", "song6"],
+    "Jazz": ["song8", "song9"]
 }
+
 
 def popsongs(song, genre):
     d = {}
     songToGenre = {}
     maxd = {}
     for k, v in genre.items():
-         for i in v:
-             songToGenre[i] = k
+        for i in v:
+            songToGenre[i] = k
     for k, v in song.items():
         d[k] = collections.defaultdict(int)
         val = 0
@@ -373,7 +398,365 @@ def popsongs(song, genre):
     res = {}
     for i in maxd:
         current = d[i]
-        #print(current)
-        res[i] = [ k for k, v in current.items() if v == maxd[i]]
+        # print(current)
+        res[i] = [k for k, v in current.items() if v == maxd[i]]
     return res
+
+
 #print(popsongs(userSongs, songGenres))
+# print(1)
+# import requests
+# import mysql.connector
+# import pandas as pd
+
+# You are given a set of symbols for the elements in the periodic table
+# eg. [... Li, Be, B, C, N, F, Ne, Na, Co, Ni, Cu, Ga, Al, Si...]
+# Write the function BreakingBad(name, symbols) that given a name and a set of symbols returns the phrase with the following format. For example:
+# Symbols = [H, He, Li, Be, B, C, N, F, Ne, Na, Co, Ni, Cu, Ga, Al, Si, Fa]
+# BreakingBad(“henry alba”, symbols) results in [He]nry [Al]ba
+
+# W - # of words in name (separated by spaces)
+# E - # of elements in symbols
+# L - Avg. string length of elements
+
+# d = {'h':'H', 'he':'HE'..}
+# s[l:r]
+Symbols = ["H", "He", "Li", "Be", "B", "C", "N", "F", "Ne", "Na", "Co", "Ni", "Cu", "Ga", "Al", "Si", "Fa"]
+
+
+def BreakingBad2(string, symbols):
+    vec = string.split(" ")
+    res = ""
+    d = {}
+    max_symbol = max([len(i) for i in symbols])
+    for i in symbols:
+        d[i.lower()] = i
+
+    def match(l_string):
+        val = -1
+        for i in range(max_symbol, -1, -1):
+            # print(max_symbol, 's')
+            if l_string[:i] in d:
+                val = i
+                break
+        return val
+    for i in vec:
+        pos = match(i)
+        print(pos, i)
+        if pos == -1:
+            res += i
+        else:
+            res += '[' + d[i[:pos]] + ']' + i[pos:]
+        res += ' '
+    return res[:-1]
+
+
+def BreakingBad(string, symbols):
+    d = {}
+    for i in symbols:
+        d[i.lower()] = i
+
+    max_symbol = max([len(i) for i in symbols])
+    l, r = 0, max_symbol
+    size = len(string)
+    res = ""
+    while l != size:
+        # print(string[l])
+        while string[l:r] not in d:
+            r -= 1
+            if l == r:
+                break
+        if l == r:
+            res += string[l]
+            l += 1
+            r = l + max_symbol
+            continue
+        res += '[' + d[string[l:r]] + ']'
+
+        l = r
+        r = l + max_symbol
+    return res
+
+
+# print('SS'.lower())
+# jerry seinfeld
+# print(BreakingBad2("henry alba", Symbols))
+# print(BreakingBad2("ben f gabe", Symbols))
+# print(BreakingBad2("jerry+ seinfeld", Symbols))
+test = [8, 4, [5, [9], 3], 6]
+
+# Input: [8, 4, [5, [9], 3], 6]
+# Output: 8 + 4 + 2 * (5 + 3 * (9) + 3) + 6 ==> 88
+
+
+def trace(nums, level):
+    value = 0
+    for group in nums:
+        if isinstance(group, list):
+            value += trace(group, level + 1) * level
+        else:
+            value += level * group
+    # print(nums, level, value)
+    return value
+
+
+# print(trace(test, 1))
+
+
+# class Suit(Enum):
+#     Club = 1
+#     Heart = 2
+#     Spade = 3
+#     Diamond = 4
+
+
+# if __name__ == "__main__":
+#     pass
+
+# you can write to stdout for debugging purposes, e.g.
+# print("This is a debug message")
+# drive through system
+#
+
+
+# class Order:
+#     # order => {"coffee": 2, "burger" : 1}
+#     def __init__(self, order):
+#         self.order = order
+#         self.complete_time = None
+
+#     def validation():
+#         # if the order is validate or not
+#         pass
+
+#     def get_estimate():
+#         self.validation()
+
+
+# class ItemType:
+#     Burger, Coffee, drinks = 1, 2, 3
+
+
+# class Item:
+#     def __init__(self, name, price, id, type, decription, image):
+#         self.name = name
+#         self.price = price
+#         self.id = id
+#         self.item_type = type
+#         self.decription = decription
+#         self.image = image
+
+#     def change_price(price):
+#         self.price = price
+
+
+# class Order:
+#     def __init__(self):
+#         self.dict = collections.defaultdict(int)
+#         self.customer_name
+#         self.id = id
+#         self.is_paid
+#         self.is_canceled
+
+#         # ['coffee', 'coffee'..]
+#     def add_order(self, items):
+#         for i in items.id:
+#             self.dict[i] += 1
+
+
+# class Shop:
+#     def __init__(self, items, employee):
+#         self.items = items
+#         self.active_employees = employee
+#         self.queue = collections.deque()
+
+#     def restock(items):
+#         for i in items.id:
+#             self.items[i] += 1
+
+#     def sell(items):
+#         for i in items.id:
+#             if v > self.items[k]:
+#                 raise Error
+#             self.items[k] -= v
+
+#     def create_order(order):
+#         res = self.add_order()
+#         res = self.add_item()
+#         res = self.validation()
+#         return res
+
+#     def calculate_payment(created_order):
+#         res = 0
+#         for i created_order:
+#             res += i.price * num
+#         return res
+
+#     def add_queue(order):
+#         self.queue.append(open)
+
+#     def deq_queue():
+#         # FIFO
+#         self.queue.popleft()
+
+#     def process_order(created_order):
+#         res = created_order
+#         val = self.calculate_payment(res)
+#         if res.is_cancelled:
+#             return
+#         if self.payment_collected(res.id, val):
+#             res.is_paid = True
+#             self.sell(items)
+#             self.add_queue(res)
+#             return create_recipe(res)
+#         else:
+#             raise Error
+
+
+# shop = Shop()
+# order = shop.create_order()
+# shop.collect_payment(order)
+# reci = shop.process_order(order)
+# print(1)
+# Given a sorted dictionary (array of words) of an alien language, find order of characters in the language.
+# Examples:
+# Input:  words[] = {"baa", "abcd", "abca", "cab", "cad"}
+# Output: Order of characters is 'b', 'd', 'a', 'c'
+# Note that words are sorted and in the given language "baa"
+# comes before "abcd", therefore 'b' is before 'a' in output.
+# Similarly we can find other orders.
+
+# words = ["baa", "abcd", "abca", "cab", "cad"]
+
+
+# def comp(left, right):
+#     size = min(len(left), len(right))
+#     i = 0
+#     while i != size:
+#         if left[i] != right[i]:
+#             return left[i], right[i]
+#         i += 1
+#     return None, None
+
+
+# size = len(words)
+# seen = set()
+# for i in range(size):
+#     for j in range(i + 1, size):
+#         print(comp(words[i], words[j]))
+#         seen.add((comp(words[i], words[j])))
+
+
+# print(seen)
+# graph = collections.defaultdict(list)
+# for i in list(seen):
+#     graph[i[1]].append(i[0])
+# print(graph)
+
+# ans = []
+# visited = set()
+# # print(graph['d'])
+
+
+# def helper(val):
+#     visited.add(val)
+#     if val in graph:
+#         for i in graph[val]:
+#             if i not in visited:
+#                 helper(i)
+#     ans.append(val)
+
+
+# for j in graph:
+#     # print(graph)
+#     if j not in visited:
+#         helper(j)
+
+# print("ans", ans)
+
+
+# Given an array that contains numbers and/or other nested  arrays, write an algorithm to come up with a sum of these elements, multiplied by the depth (or how many arrays deep) you are. For example, what would you do with an input array that looks like: [ 2, 3, [ 9, [ 1, 2 ]], 4]
+
+
+# vec = [ 2, 3, [ 9, [ 1, 2 ]], 4]
+# max_level = [0]
+# def helper1(arr, level):
+#     max_level[0] = max(max_level[0], level)
+#     for i in arr:
+#         if isinstance(i, list):
+#             helper1(i, level + 1)
+
+# def helper(arr, level):
+#     res = []
+#     for i in arr:
+#         val = i
+#         if isinstance(i, list):
+#            val = helper(i, level + 1)
+#         res.append(val * level)
+#     return sum(res)
+
+# print(helper(vec, 1))
+
+# # 9 + 18 + 18 = 45
+
+
+# Input: nums = [0,100,0,3,12]
+# Output: [100,3,12,0,0]
+
+# nums.sort(key=cmp_to_key(func))
+
+# i - 0, size
+# j - i+1, size
+# nums = [0,100,0,3,12]
+# from functools import cmp_to_key
+
+# def comp(a, b):
+#     if a == 0 and b == 0:
+#         return 0
+#     elif a == 0:
+#         return 1
+#     elif b == 0:
+#         return -1
+#     return 0
+
+# nums.sort(key=cmp_to_key(comp))
+# print(nums)
+
+# [100,0,0,3,12]
+# def helper(nums):
+#     i = 0
+#     size = len(nums)
+#     while i != size:
+#         if nums[i] == 0:
+#             for j in range(i, size):
+#                 if nums[j] != 0:
+#                     tmp = nums[j]
+#                     nums[j] = nums[i]
+#                     nums[i] = tmp
+#                     break
+#         i += 1
+# nums = [0,100,0,3,12]
+
+# nums = [100,412,51234,51]
+# nums = [-1,9,0,3,1,50,0,0,13,0,0,0,0,33,3]
+# nums = [0,0,1]
+# nums = [1,0,0]
+# nums = []
+# nums = [0,0,0,0]
+# def helper(nums):
+#     p1 = -1
+#     for idx, val in enumerate(nums):
+#         if val == 0:
+#             p1 = idx
+#             break
+#     if p1 == -1:
+#         return
+#     size = len(nums)
+#     for p2 in range(p1, size):
+#         if nums[p2] != 0:
+#             tmp = nums[p2]
+#             nums[p2] = nums[p1]
+#             nums[p1] = tmp
+#             p1 += 1
+# helper(nums)
+# print(nums)
