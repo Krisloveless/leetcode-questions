@@ -1,0 +1,19 @@
+class Solution:
+    def isIdealPermutation(self, nums: List[int]) -> bool:
+        local_inversion = sum([ 1 for i in range(1, len(nums)) if nums[i] < nums[i-1]])
+        vec = []
+        global_inversion = 0
+        for i in nums:
+            idx = bisect.bisect_left(vec, i)
+            global_inversion += len(vec) - idx
+            bisect.insort(vec, i)
+            if global_inversion > local_inversion:
+                return False
+        # print(global_inversion, local_inversion)
+        return local_inversion == global_inversion
+    
+    def isIdealPermutation(self, nums: List[int]) -> bool:
+        for i in range(len(nums)):
+            if abs(nums[i] - i) > 1:
+                return False
+        return True
