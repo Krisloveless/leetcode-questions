@@ -1,0 +1,28 @@
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        graph = collections.defaultdict(list)
+        for word in wordList:
+            for i in range(len(word)):
+                graph[word[:i] + '*' + word[i+1:]].append(word)
+        # print(graph)
+        visited = set()
+        level = collections.defaultdict(list)
+        level[beginWord] = [[beginWord]]
+        while level:
+            next_level = collections.defaultdict(list)
+            for word, paths in level.items():
+                if word == endWord:
+                    return paths
+                for i in range(len(word)):
+                    current = word[:i] + '*' + word[i+1:]
+                    for next_w in graph[current]:
+                        if next_w not in visited:
+                            for path in paths:
+                                next_level[next_w].append(path+[next_w])
+                            # print(next_level, path, "sss")
+            for i in next_level.keys():
+                visited.add(i)
+            level = next_level
+        # print(max_len)
+
+        return []
