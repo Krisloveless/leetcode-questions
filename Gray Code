@@ -1,0 +1,18 @@
+class Solution:
+    def grayCode(self, n: int) -> List[int]:
+        @cache
+        def helper(n):
+            if n == 1:
+                return ['0', '1']
+            vec = helper(n-1)
+            res = []
+            for idx, val in enumerate(vec):
+                if idx % 2 == 0:
+                    res.append(val + '0')
+                    res.append(val + '1')
+                else:
+                    res.append(val + '1')
+                    res.append(val + '0')
+            return res
+        # print(helper(3))
+        return [int(i, 2) for i in helper(n)]
