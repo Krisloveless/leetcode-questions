@@ -30,27 +30,14 @@ class Solution:
             node = node.children[i]
         return res
         
-# import functools
-
-# class Solution:
-#     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
-#             products.sort()
-#             value = ""
-#             ans = []
-#             for i in searchWord:
-#                 value += i
-#                 ans.append([j for j in products if j.startswith(value)][:3])
-#             return ans
-        
-from collections import defaultdict
 class Solution:
     def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:
-        search_dict = defaultdict(list)
+        search_d = collections.defaultdict(list)
         products = sorted(products)
         for p in products:
             for i in range(1, len(p)+1):
-                search_dict[p[0:i]].append(p)
+                search_d[p[:i]].append(p)
         res = []
         for i in range(1, len(searchWord)+1):
-            res.append(search_dict[searchWord[0:i]][0:3])
+            res.append(search_d[searchWord[:i]][:3])
         return res
