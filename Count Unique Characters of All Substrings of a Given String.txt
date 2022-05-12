@@ -55,3 +55,16 @@ class Solution:
             res += sum(con.values())
             pos[val] = current
         return res
+
+
+class Solution:
+    def uniqueLetterString(self, s: str) -> int:
+        last_position = collections.defaultdict(int)
+        contribution = collections.defaultdict(int)
+        ans = 0
+        for idx, val in enumerate(s):
+            current = idx + 1
+            contribution[val] = current - last_position[val]
+            ans += sum(contribution.values())
+            last_position[val] = current
+        return ans
