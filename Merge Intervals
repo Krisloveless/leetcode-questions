@@ -26,3 +26,21 @@ class Solution:
                 stack.append(intervals[p])
             p += 1
         return stack
+
+
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort()
+        stack = []
+        intervals = collections.deque(intervals)
+        while intervals:
+            group = intervals.popleft()
+            if not stack:
+                stack.append(group)
+                continue
+            if stack[-1][1] < group[0]:
+                stack.append(group)
+            else:
+                if stack[-1][1] < group[1]:
+                    stack[-1][1] = group[1]
+        return stack
