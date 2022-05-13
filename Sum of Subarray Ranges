@@ -9,3 +9,18 @@ class Solution:
                 r = max(r, A[j])
                 res += r - l
         return res
+
+
+class Solution:
+    def subArrayRanges(self, nums: List[int]) -> int:
+        def helper(A, fn):
+            result = [0]*len(A)
+            stack = [0]
+            for i in range(len(A)):
+                while fn(A[stack[-1]], A[i]):
+                    stack.pop() 
+                j = stack[-1]
+                result[i] = result[j] + (i-j)*A[i]
+                stack.append(i)
+            return sum(result)
+        return helper([10**9+1] + nums, lambda x, y: x < y) - helper([-10**9-1] + nums, lambda x, y: x > y)
