@@ -66,3 +66,19 @@ class Solution:
                 count[s[i]] -= 1
                 i += 1
         return len(s) - i
+
+
+class Solution:
+    def characterReplacement(self, s: str, k: int) -> int:
+        fq = collections.defaultdict(int)
+        l = 0
+        size = len(s)
+        max_f = 0
+        for r in range(size):
+            fq[s[r]] += 1
+            max_f = max(max_f, fq[s[r]])
+            if r - l + 1 > max_f + k:
+                fq[s[l]] -= 1
+                l += 1
+        return size - l
+    
