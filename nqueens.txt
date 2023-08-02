@@ -60,3 +60,46 @@ def solveNQueens(self, n):
     result = []
     DFS([],[],[])
     return [ ["."*i + "Q" + "."*(n-i-1) for i in sol] for sol in result]
+
+
+class Solution:
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        vlist = []
+        def row_valid(x1, y1, x2, y2):
+            return x1 != x2
+        def col_valid(x1, y1, x2, y2):
+            return y1 != y2
+        def dia_valid(x1, y1, x2, y2):
+            return x1 + y1 != x2 + y2 and x1 - x2 != y1 - y2
+
+        def is_valid(x1, y1, x2, y2):
+            return row_valid(x1, y1, x2, y2) and col_valid(x1, y1, x2, y2) and dia_valid(x1, y1, x2, y2)
+        
+        def helper(pos, queen_list):
+            # print(pos, queen_list)
+            if pos == n:
+                vlist.append(queen_list)
+                return
+            if len(queen_list) == 0:
+                for i in range(n):
+                    helper(pos+1, [[pos, i]])
+            else:
+                for i in range(n):
+                    valid = True    
+                    for j in queen_list:
+                        if not is_valid(pos, i, j[0], j[1]):
+                            valid = False
+                            break
+                    if valid:
+                        helper(pos+1, queen_list + [[pos, i]])
+        helper(0, [])
+        r = []
+        for i in vlist:
+            ql = []
+            for j in i:
+                q = ["." for k in range(n)]
+                q[j[1]] = "Q"
+                ql.append("".join(q))
+            r.append(ql)
+        return r
+                 
