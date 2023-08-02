@@ -1,0 +1,20 @@
+class Solution:
+    def minFlips(self, a: int, b: int, c: int) -> int:
+        def convert(num):
+            bin_string = str(bin(num))[2:]
+            return [int(i) for i in bin_string]
+        a_list = convert(a)
+        b_list = convert(b)
+        c_list = convert(c)
+        n = max(len(a_list), len(b_list), len(c_list))
+        a_list = [0 for i in range(n-len(a_list))] + a_list
+        b_list = [0 for i in range(n-len(b_list))] + b_list
+        c_list = [0 for i in range(n-len(c_list))] + c_list
+        # print(a_list, b_list, c_list)
+        count = 0
+        for i in range(n):
+            if c_list[i] == 0:
+                count += (a_list[i] + b_list[i])
+            else:
+                count += (0 if (a_list[i] + b_list[i]) > 0 else 1)
+        return count
