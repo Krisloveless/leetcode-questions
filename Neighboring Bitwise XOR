@@ -1,0 +1,16 @@
+class Solution:
+    def doesValidArrayExist(self, derived: List[int]) -> bool:
+        # if derived[i] == 0, x[i] == x[i+1] or x[i] == x[0]
+        n = len(derived)
+        res = ['.'] * n
+        res[0] = 1
+        for i in range(n-1):
+            if derived[i] == 1:
+                if res[i] == 1:
+                    res[i+1] = 0
+                else:
+                    res[i+1] = 1
+            else:
+                res[i+1] = res[i]
+        # print(res)
+        return res[n-1] ^ res[0] == derived[n-1]
