@@ -1,0 +1,17 @@
+class Solution:
+    def convertToTitle(self, columnNumber: int) -> str:
+        res = ""
+        def to_letter(num):
+            return chr(num + 64) if num != 0 else 'Z'
+        while columnNumber != 0:
+            if columnNumber <= 26:
+                res += to_letter(columnNumber)
+                break
+            value = columnNumber // 26
+            index = columnNumber % 26
+            if index == 0:
+                index = 26
+                value -= 1
+            res += to_letter(index)
+            columnNumber = value
+        return res[::-1]
