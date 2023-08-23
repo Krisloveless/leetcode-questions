@@ -15,3 +15,31 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 	}
 	return res->val? res : res->next;
 }
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        def get_value(node):
+            res = ""
+            while node:
+                res += str(node.val)
+                node = node.next
+            return int(res)
+
+        def encode_value(string):
+            arr = [int(i) for i in string]
+            head = ListNode()
+            node = head
+            pre = head
+            for i in arr:
+                node.val = i
+                node.next = ListNode()
+                pre = node
+                node = node.next
+            pre.next = None
+            return head
+        return encode_value(str(get_value(l1) + get_value(l2)))
