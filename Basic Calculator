@@ -26,3 +26,31 @@ class Solution:
                         break
             return sum(stack)
         return helper(vec)
+
+
+class Solution:
+    def calculate(self, s: str) -> int:
+        from collections import deque
+        s += "@"
+        vec = deque([i for i in s])
+        def process(expr):
+            current = 0
+            sign = 1
+            stack = []
+            while expr:
+                letter = expr.popleft()
+                if letter.isdigit():
+                    current = current * 10 + int(letter)
+                elif letter == "(":
+                    current = process(expr)
+                elif letter in {"+", "-", ")", "@"}:
+                    stack.append(sign * current)
+                    if letter == "+":
+                        sign = 1
+                    if letter == "-":
+                        sign = -1
+                    current = 0
+                if letter in {")", "@"}:
+                        break
+            return sum(stack)
+        return process(vec)
