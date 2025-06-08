@@ -10,3 +10,18 @@ class Solution:
             ans = max(ans, nxt-num+1)
                 
         return ans
+
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+        res = 0
+        seen = set(nums)
+        for i in seen:
+            if i - 1 in seen:
+                continue
+            local_max = 1
+            p = i
+            while p in seen:
+                res = max(res, local_max)
+                local_max += 1
+                p += 1
+        return res 
