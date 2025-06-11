@@ -1,0 +1,26 @@
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        v, w, p = 0, int(s>''), ''
+        for d in s:
+            v, w, p = w, (d>'0')*w + (9<int(p+d)<27)*v, d
+        return w
+
+        # hash = {}
+        # for i in range(1, 27):
+        #     hash[str(i)] = chr(ord('A') - 1 + i)
+        # # print(hash)
+        # memo = set()
+        # from functools import lru_cache
+        # @lru_cache()
+        # def helper(vec, group):
+        #     if len(vec) == 0:
+        #         memo.add(group)
+        #         return
+        #     if vec[0] in hash:
+        #         helper( vec[1:], group + "-" + vec[0])
+        #     if vec[:2] in hash:
+        #         helper(vec[2:], group + "-" + vec[:2])
+        # helper(s, "")    
+        # # print(memo)
+        
+        # return len(memo)
